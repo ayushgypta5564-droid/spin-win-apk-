@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Diwali Dhamaka Sale | Spin & Win</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#1a0b2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#ffd700;--bg:#1a0b2e}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden}body{font-family:Poppins,Arial,sans-serif;background:linear-gradient(155deg,#1a0b2e,#2d1b4e);color:white}.app{height:100dvh;min-height:0;display:flex;flex-direction:column;align-items:center;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);overflow:hidden}.header{text-align:center;flex:0 0 auto;padding-top:7px}.logo{display:block;max-width:190px;width:clamp(125px,36vw,190px);max-height:100px;object-fit:contain;background:#fff;padding:5px 9px;border-radius:12px;box-shadow:0 4px 18px #0007;margin:0 auto}.header h1{font-size:clamp(16px,4.4vw,24px);margin:5px 0 0;color:var(--gold);line-height:1.2}.game{display:none;flex:1;min-height:0;width:100%;max-width:520px;flex-direction:column;align-items:center;justify-content:space-evenly;gap:5px}.game.active{display:flex}.result{width:100%;min-height:57px;text-align:center;border:1px solid #ffd70077;background:#ffffff0c;border-radius:12px;padding:6px}.result strong{font-size:clamp(12px,3.5vw,17px);color:#ffe56b}.prices{font-size:clamp(14px,4vw,19px);font-weight:700}.old{text-decoration:line-through;color:#ff8f9e}.new{color:#75f3a4}.wheel-area{width:min(94vw,calc(100dvh - 305px),410px);height:min(94vw,calc(100dvh - 305px),410px);min-width:150px;min-height:150px;position:relative;flex-shrink:1}.wheel-svg{width:100%;height:100%;filter:drop-shadow(0 7px 13px #0008);transform:rotate(0deg);transition:transform 4s cubic-bezier(.12,.72,.12,1)}.pointer{position:absolute;top:-8px;left:50%;transform:translateX(-50%);z-index:3;width:0;height:0;border-left:15px solid transparent;border-right:15px solid transparent;border-top:32px solid #ffd700;filter:drop-shadow(0 2px 2px #000)}.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:17%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff4a3,#ffb900);border:4px solid #fff4b4;box-shadow:0 2px 10px #0009;display:grid;place-items:center;color:#552a00;font-weight:800;font-size:clamp(9px,3vw,16px);pointer-events:none}.controls{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%;padding-bottom:8px}.counter{font-size:14px;font-weight:600}.btn{border:0;border-radius:12px;padding:11px 19px;font:700 15px Poppins,Arial;cursor:pointer;box-shadow:0 4px 12px #0005}.btn:disabled{opacity:.5;cursor:not-allowed}.spin-btn{background:linear-gradient(110deg,#fff08a,#ffd700,#ed9f00);color:#321900;width:min(85%,270px)}.apply-btn{background:linear-gradient(120deg,#19bf5a,#067c3e);color:white;width:min(85%,270px)}.apply-btn[hidden]{display:none}.status{font-size:11px;color:#ddd;text-align:center;min-height:14px}.overlay{position:fixed;inset:0;background:linear-gradient(155deg,#1a0b2e,#2d1b4e);z-index:10;display:flex;align-items:center;justify-content:center;padding:14px;overflow-y:auto}.overlay.hidden{display:none}.overlay.admin-layer{z-index:50}.form-card{width:min(100%,420px);border:2px solid var(--gold);border-radius:20px;background:#29183f;box-shadow:0 15px 45px #0008;padding:clamp(15px,4vw,25px);text-align:center}.form-card h2{color:var(--gold);font-size:20px;margin:7px 0 14px}.form-card label{display:block;text-align:left;font-size:12px;margin:9px 0 4px}.form-card input{width:100%;padding:11px 12px;border:1px solid #a991bc;border-radius:9px;background:#fff;color:#1d1131;font:500 14px Poppins,Arial;outline:none}.form-card input:focus{border-color:var(--gold);box-shadow:0 0 0 2px #ffd70044}.form-card button{width:100%;margin-top:17px;background:linear-gradient(110deg,#fff08a,#ffd700,#ed9f00);color:#2c1700}.hint{font-size:10px;color:#cfc1dc;margin:11px 0 0}.form-logo{max-height:105px;width:clamp(140px,42vw,190px)}.back-btn{display:none;position:fixed;z-index:60;top:calc(env(safe-area-inset-top) + 10px);left:12px;width:42px;height:42px;border:1px solid #ffd700;border-radius:50%;background:#29183f;color:#ffd700;font:700 27px/1 Poppins,Arial;box-shadow:0 3px 12px #0008;cursor:pointer;align-items:center;justify-content:center;padding:0}.back-btn:active{transform:scale(.94)}.sr-only{position:absolute;left:-9999px}@media(max-height:650px){.logo{max-height:70px;width:125px}.form-logo{max-height:75px;width:145px}.header h1{font-size:16px}.wheel-area{width:min(80vw,calc(100dvh - 255px),340px);height:min(80vw,calc(100dvh - 255px),340px)}.btn{padding:8px 14px;font-size:13px}.result{min-height:45px;padding:4px}.controls{gap:3px}.form-card{padding:12px 18px}.form-card label{margin:5px 0 2px}.form-card input{padding:8px}.form-card h2{margin:4px 0 7px}}@media(max-height:470px){.wheel-area{width:min(46vh,220px);height:min(46vh,220px)}.game{gap:1px}.header h1{font-size:13px}.result{min-height:34px}.status{display:none}}
+
+.pay-card{max-height:calc(100dvh - 28px);overflow-y:auto}.qr-image{display:block;width:min(62vw,250px);height:min(62vw,250px);object-fit:contain;background:#fff;border-radius:12px;padding:7px;margin:8px auto 12px}.paid-amount{margin:12px 0;padding:12px 8px;border:2px solid #ffd700;border-radius:12px;background:linear-gradient(110deg,#fff08a,#ffd700,#ed9f00);color:#321900;font-size:clamp(21px,6vw,30px);font-weight:800;box-shadow:0 4px 14px #0006}.pay-card .hint{line-height:1.5}.pay-card button{margin-top:12px}.code-area{margin-top:12px;padding-top:10px;border-top:1px solid #ffffff33}.code-area[hidden]{display:none}
+.menu-btn{position:fixed;z-index:60;top:calc(env(safe-area-inset-top) + 10px);right:12px;width:42px;height:42px;border:1px solid #ffd700;border-radius:50%;background:#29183f;color:#ffd700;font:800 25px/1 Arial;cursor:pointer;box-shadow:0 3px 12px #0008;display:none;align-items:center;justify-content:center}
+.menu-panel{position:fixed;z-index:95;top:calc(env(safe-area-inset-top) + 58px);right:12px;width:170px;background:#29183f;border:1px solid #ffd700;border-radius:12px;padding:7px;box-shadow:0 8px 24px #0009;display:none}
+.menu-panel.open{display:block}.menu-panel button{width:100%;border:0;background:transparent;color:white;text-align:left;padding:12px;border-radius:8px;font:600 14px Poppins,Arial}.menu-panel button:active{background:#ffffff20}
+.admin-card{max-height:calc(100dvh - 28px);overflow-y:auto;text-align:left}.admin-card h2{text-align:center}.admin-card .btn{width:100%;margin-top:12px}.admin-card select,.admin-card textarea{width:100%;padding:11px 12px;border:1px solid #a991bc;border-radius:9px;background:#fff;color:#1d1131;font:500 14px Poppins,Arial}.admin-card textarea{min-height:85px;resize:vertical}.choice-btn{display:block;width:100%;padding:15px;margin:12px 0 0;border:1px solid #ffd700;border-radius:12px;background:#ffffff12;color:white;font:700 15px Poppins,Arial}.admin-list{font-size:12px;line-height:1.7;color:#eee;overflow-wrap:anywhere}.product-row{position:relative;padding:11px 44px 11px 0;border-bottom:1px solid #ffffff25}.product-edit-btn{position:absolute;right:0;top:12px;width:36px;height:36px;border:1px solid #ffd700;border-radius:9px;background:#ffffff12;color:#ffd700;font-size:18px;display:grid;place-items:center;cursor:pointer}.product-row:last-child{border-bottom:0}.product-name{font-weight:700;color:#ffe36b;font-size:13px}.product-detail{font-size:11px;color:#eee;margin-top:4px;line-height:1.55;overflow-wrap:anywhere}.products-toolbar{display:flex;gap:8px;margin:10px 0}.products-toolbar button{flex:1;border:1px solid #ffd700;border-radius:9px;background:#ffffff12;color:#fff;padding:9px 5px;font:600 11px Poppins,Arial}.products-toolbar button.active{background:#ffd700;color:#281600}.products-count{font-size:11px;color:#cfc1dc;margin:4px 0 10px}.page-title{text-align:center;color:#ffd700;font-size:21px;margin:5px 0 15px}.field-hint{font-size:10px;color:#cfc1dc;margin-top:4px}.game-topline{height:42px;width:100%;flex:0 0 42px}
+
+#businessLoginGate .form-card,#subscriptionRequiredGate .form-card{max-height:92dvh;overflow-y:auto}
+#businessLoginGate button,#subscriptionRequiredGate button{border:0;border-radius:10px;padding:12px;font:700 14px Poppins,Arial;cursor:pointer}
+#businessLoginGate #businessSignupBtn{margin-top:8px;background:#ffffff20;color:#fff;border:1px solid #ffffff55}
+
+ 
+/* Navigation controls: show three-dot menu on the logged-in customer form. */
+body.customer-open #menuBtn{display:flex!important;z-index:160}
+body.customer-open #backBtn{display:flex!important;z-index:160}
+body.customer-open #menuPanel{z-index:161}
+/* Payment page navigation and QR upload controls */
+/* Controls are toggled by the payment-open body class (the controls precede the overlay in the DOM). */
+body.payment-open #backBtn,body.payment-open #menuBtn{display:flex!important;z-index:140}
+body.payment-open #menuPanel{z-index:141}
+body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
+#qrChoiceGate .form-card{max-width:360px}
+#qrChoiceGate button{width:100%;padding:13px;border-radius:10px;margin-top:10px;font:700 14px Poppins,Arial;cursor:pointer}
+</style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- Business login gate: added without changing the existing Spin & Win customer/payment flow -->
+<div class="overlay" id="businessLoginGate" style="z-index:100">
+  <form class="form-card" id="businessLoginForm">
+    <img class="logo form-logo" src="https://i.ibb.co/rRSLNQFj/logo.png" alt="Raj Laxmi Enterprises">
+    <h2>Business Login</h2>
+    <label for="businessName">Business Name</label>
+    <input id="businessName" autocomplete="organization" placeholder="Raj Laxmi Enterprises" required>
+    <label for="businessEmail">Email</label>
+    <input id="businessEmail" type="email" autocomplete="username" placeholder="Enter email" required>
+    <label for="businessPassword">Password</label>
+    <input id="businessPassword" type="password" autocomplete="current-password" placeholder="Password (8+ characters)" minlength="8" required>
+    <button type="submit" id="businessLoginBtn">Login</button>
+    <button type="button" id="businessSignupBtn">Create Account</button>
+    <p class="hint" id="businessAuthMessage" role="status"></p>
+  </form>
+</div>
+<div class="overlay hidden" id="subscriptionRequiredGate" style="z-index:100">
+  <div class="form-card">
+    <h2>Subscription Required</h2>
+    <p id="subscriptionMessage">Please purchase a subscription to continue.</p>
+    <button type="button" id="subscriptionLogoutBtn">Logout</button>
+  </div>
+</div>
+
+<main class="app"><header class="header"><img class="logo" src="https://i.ibb.co/rRSLNQFj/logo.png" alt="Store logo"><h1>🪔 Diwali Dhamaka Sale 🪔</h1></header>
+<section class="game" id="game"><div class="result" aria-live="polite"><strong id="congrats">Spin the wheel to unlock your offer! 🎁</strong><div class="prices" id="prices"></div></div><div class="wheel-area"><div class="pointer" aria-hidden="true"></div><svg id="wheel" class="wheel-svg" viewBox="0 0 400 400" role="img" aria-label="Discount prize wheel"></svg><div class="hub">WIN</div></div><div class="controls"><div class="counter" id="counter">Tap: 0 / 3</div><button class="btn spin-btn" id="spinBtn" type="button">TAP TO SPIN 🎁</button><button class="btn apply-btn" id="applyBtn" type="button" hidden>Apply Offer ✅</button><div class="status" id="status" aria-live="polite">You have 3 chances to spin.</div></div></section></main>
+<button class="back-btn" id="backBtn" type="button" aria-label="Back to customer details" title="Back">←</button>
+<button class="menu-btn" id="menuBtn" type="button" aria-label="More options" title="More options">⋮</button>
+<div class="menu-panel" id="menuPanel"><button type="button" id="uploadQrMenuBtn">📷 Upload QR</button><button type="button" id="settingsMenuBtn">⚙️ Settings</button><button type="button" id="addProductMenuBtn">＋ Add Product</button></div>
+<div class="overlay hidden admin-layer" id="adminChoicePage"><section class="form-card admin-card"><h2 class="page-title">Add Product</h2><button class="choice-btn" id="cashTypeBtn" type="button">💵 Extra Cash Discount</button><button class="choice-btn" id="freeTypeBtn" type="button">🎁 Free Products</button></section></div>
+<div class="overlay hidden admin-layer" id="addProductPage"><form class="form-card admin-card" id="addProductForm"><h2 class="page-title" id="addProductTitle">Add Product</h2><label for="newProductName">Add Product Name</label><input id="newProductName" required maxlength="100" placeholder="Enter product name"><label for="newProductOptions">Spin Board Options</label><textarea id="newProductOptions" required placeholder="Example: 500, 800, 1000, 1500"></textarea><p class="field-hint" id="optionsHint">Options ko comma se alag karein.</p><label for="newProductFirst">First Tap Result</label><input id="newProductFirst" required placeholder="Enter first tap result"><p class="field-hint" id="firstHint">First tap result options mein se hi hona chahiye.</p><button class="btn" type="submit">Add Product</button></form></div>
+<div class="overlay hidden admin-layer" id="settingsPage"><section class="form-card admin-card"><h2 class="page-title">Settings ⚙️</h2><p class="admin-list" id="settingsSummary"></p><button class="choice-btn" id="viewProductsBtn" type="button">📦 Products</button><h3>Custom Products</h3><div class="admin-list" id="customProductList">No custom products added yet.</div></section></div>
+<div class="overlay hidden admin-layer" id="productsPage"><section class="form-card admin-card"><h2 class="page-title">All Products 📦</h2><div class="products-toolbar"><button type="button" id="allProductsFilter" class="active">All</button><button type="button" id="cashProductsFilter">Extra Cash</button><button type="button" id="freeProductsFilter">Free Products</button></div><p class="products-count" id="productsCount"></p><div id="allProductsList" class="admin-list"></div></section></div>
+
+<div class="overlay hidden admin-layer" id="editProductPage" style="z-index:90"><form class="form-card admin-card" id="editProductForm"><h2 class="page-title">Edit Product ✏️</h2><label for="editProductName">Product Name</label><input id="editProductName" required maxlength="100"><label for="editProductOptions">Spin Board Options</label><textarea id="editProductOptions" required></textarea><p class="field-hint">Options ko comma se alag karein.</p><label for="editTap1">First Tap Result</label><input id="editTap1" required><label for="editTap2">Second Tap Result</label><input id="editTap2" required><label for="editTap3">Third Tap Result</label><input id="editTap3" required><button class="btn" type="submit">Save Changes</button><button class="choice-btn" id="cancelEditProduct" type="button">Cancel</button></form></div>
+<div class="overlay hidden" id="qrChoiceGate" style="z-index:120"><section class="form-card"><h2>Upload Payment QR</h2><button class="btn" type="button" id="chooseQrGallery">Choose from Gallery</button><button class="btn" type="button" id="chooseQrCamera">Camera</button><button type="button" id="cancelQrChoice" style="margin-top:8px;background:#ffffff20;color:#fff">Cancel</button></section></div>
+<input id="qrGalleryInput" class="sr-only" type="file" accept="image/*">
+<input id="qrCameraInput" class="sr-only" type="file" accept="image/*" capture="environment">
+<div class="overlay hidden" id="offerChoicePage" style="z-index:115"><section class="form-card admin-card"><h2 class="page-title">Available Offers 🎁</h2><div id="availableOfferChoices"></div><button class="choice-btn" id="backToCustomerForm" type="button">← Back</button></section></div>
+<div class="overlay hidden" id="paymentGate"><form class="form-card pay-card" id="paymentForm"><h2>Welcome 🎉</h2><img class="qr-image" id="paymentQrImage" src="https://i.ibb.co/C38hpRjs/Account-QRCode-State-Bank-of-India-9146-LIGHT-THEME-2.jpg" alt="Scan QR code to pay ₹200"><label for="payName">Customer Name</label><input id="payName" required maxlength="80" autocomplete="name" placeholder="Enter customer name"><label for="payPhone">Customer Phone Number</label><input id="payPhone" required type="tel" inputmode="numeric" pattern="[0-9]{10}" minlength="10" maxlength="10" placeholder="10-digit mobile number"><button class="btn" id="paidBtn" type="button">I Have Paid ₹200</button><div class="code-area" id="codeArea" hidden><label for="enterpriseCode">Enterprise Code</label><input id="enterpriseCode" autocomplete="off" placeholder="Enter code received from shop"><button class="btn" id="unlockOfferBtn" type="button">Unlock Offer 🎁</button></div><p class="hint">QR scan karke ₹200 payment karein. Payment confirm karne ke baad shop owner code WhatsApp par bhejega.</p></form></div>
+
+<div class="overlay hidden" id="overlay"><form class="form-card" id="leadForm"><img class="logo form-logo" src="https://i.ibb.co/rRSLNQFj/logo.png" alt="Store logo"><h2>🎁 Unlock Your Discount</h2><label for="name">Your Name</label><input id="name" name="name" required autocomplete="name" maxlength="80" placeholder="Enter your name"><label for="phone">Phone Number</label><input id="phone" name="phone" type="tel" required inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" minlength="10" maxlength="10" title="Enter exactly 10 digits" placeholder="10-digit mobile number"><label for="product">Product Name</label><input id="product" name="product" list="productSuggestions" required maxlength="100" placeholder="Select/type product name"><datalist id="productSuggestions"></datalist><label for="price">Product Price (₹)</label><input id="price" name="price" type="number" required min="1" max="100000000" step="0.01" placeholder="Enter product price"><button class="btn" type="submit">Unlock Offers 🎁</button><p class="hint">Game opens directly. One entry per product and phone every hour on this browser.</p></form></div>
+
+<script>
+/* Business authentication + Raj Laxmi Enterprises permanent free access.
+   Other businesses require an active subscription; Razorpay is intentionally not integrated yet. */
+const BUSINESS_SUPABASE_URL='https://weoaltycrfcnqwncpgvf.supabase.co';
+const BUSINESS_SUPABASE_KEY='sb_publishable_0A225rp9Cwf596PnaEWVZA_zFvRXR2m';
+const businessAuthClient=window.supabase.createClient(BUSINESS_SUPABASE_URL,BUSINESS_SUPABASE_KEY);
+const businessAuthEl=id=>document.getElementById(id);
+function businessAuthMessage(message){businessAuthEl('businessAuthMessage').textContent=message;}
+function showBusinessLogin(){businessAuthEl('businessLoginGate').classList.remove('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('overlay').classList.add('hidden');businessAuthEl('game').classList.remove('active');}
+function enterExistingApp(){businessAuthEl('businessLoginGate').classList.add('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('offerChoicePage').classList.add('hidden');businessAuthEl('overlay').classList.remove('hidden');document.body.classList.add('customer-open');$('backBtn').style.display='flex';$('menuBtn').style.display='flex';}
+async function checkBusinessAccess(user){
+  businessAuthMessage('Checking business account...');
+  const {data:business,error:businessError}=await businessAuthClient.from('businesses').select('id,business_name').eq('owner_id',user.id).maybeSingle();
+  if(businessError)throw businessError;
+  let businessRow=business;
+  if(!businessRow){
+    const name=businessAuthEl('businessName').value.trim();
+    if(!name)throw new Error('Business Name bharein, phir login karein.');
+    const {data:created,error:createError}=await businessAuthClient.from('businesses').insert({owner_id:user.id,business_name:name}).select('id,business_name').single();
+    if(createError)throw createError;
+    businessRow=created;
+  }
+  const normalized=(businessRow.business_name||'').trim().toLowerCase().replace(/\s+/g,' ');
+  if(normalized==='raj laxmi enterprises'){
+    enterExistingApp();
+    return;
+  }
+  const {data:subs,error:subError}=await businessAuthClient.from('subscriptions').select('status,expires_at').eq('business_id',businessRow.id).eq('status','active').order('expires_at',{ascending:false}).limit(1);
+  if(subError)throw subError;
+  const active=(subs||[]).some(item=>item.expires_at && new Date(item.expires_at).getTime()>Date.now());
+  if(active){enterExistingApp();return;}
+  businessAuthEl('businessLoginGate').classList.add('hidden');
+  businessAuthEl('subscriptionRequiredGate').classList.remove('hidden');
+  businessAuthEl('subscriptionMessage').textContent='Is business account ke liye subscription zaroori hai. Monthly ₹499 / Yearly ₹4,999. Razorpay payment setup abhi add nahi kiya gaya hai.';
+}
+businessAuthEl('businessLoginForm').addEventListener('submit',async event=>{
+  event.preventDefault();
+  const email=businessAuthEl('businessEmail').value.trim();
+  const password=businessAuthEl('businessPassword').value;
+  try{
+    businessAuthMessage('Logging in...');
+    const {data,error}=await businessAuthClient.auth.signInWithPassword({email,password});
+    if(error)throw error;
+    await checkBusinessAccess(data.user);
+  }catch(error){businessAuthMessage(error.message||'Login failed.');}
+});
+businessAuthEl('businessSignupBtn').addEventListener('click',async()=>{
+  const email=businessAuthEl('businessEmail').value.trim();
+  const password=businessAuthEl('businessPassword').value;
+  const businessName=businessAuthEl('businessName').value.trim();
+  if(!businessName){businessAuthMessage('Business Name bharein.');return;}
+  if(!email||password.length<8){businessAuthMessage('Valid email aur kam se kam 8 characters ka password bharein.');return;}
+  try{
+    businessAuthMessage('Creating account...');
+    const {data,error}=await businessAuthClient.auth.signUp({email,password});
+    if(error)throw error;
+    if(data.user && data.session){
+      const {error:insertError}=await businessAuthClient.from('businesses').insert({owner_id:data.user.id,business_name:businessName});
+      if(insertError)throw insertError;
+      await checkBusinessAccess(data.user);
+    }else{
+      businessAuthMessage('Account create ho gaya. Email verify karke login karein.');
+    }
+  }catch(error){businessAuthMessage(error.message||'Account create nahi hua.');}
+});
+businessAuthEl('subscriptionLogoutBtn').addEventListener('click',async()=>{
+  await businessAuthClient.auth.signOut();
+  businessAuthEl('subscriptionRequiredGate').classList.add('hidden');
+  showBusinessLogin();
+});
+(async()=>{
+  try{
+    const {data}=await businessAuthClient.auth.getSession();
+    if(data.session)await checkBusinessAccess(data.session.user);
+    else showBusinessLogin();
+  }catch(error){showBusinessLogin();businessAuthMessage(error.message||'Please login.');}
+})();
+</script>
+<script>
+'use strict';
+const productConfig = {
+"dressing a1": { options: [500, 800, 1500, 1800, 2000, 2500, 2800, 3000], sequence: [1500, 800, 2800] },
+"dressing a2": { options: [500, 700, 1300, 1800, 2000, 2500, 2800, 3000], sequence: [1300, 1800, 2800] },
+"dressing b1": { options: [500, 800, 1500, 1800, 2000, 2500, 2800, 3000], sequence: [1500, 500, 3000] },
+"dressing b2": { options: [500, 800, 1400, 1800, 2000, 2500, 2800, 3000], sequence: [1400, 800, 2000] },
+"wooden alhmira w1": { options: [500, 800, 1500, 1800, 2000, 2500, 2800, 3000], sequence: [1500, 1800, 500] },
+"wooden alhmira w2": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1700, 3000, 500] },
+"wooden alhmira w3": { options: [500, 800, 1400, 1600, 2000, 2500, 2800, 3000], sequence: [1600, 800, 2500] },
+"wooden alhmira w4": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1700, 1500, 2700] },
+"wooden alhmira w5": { options: [500, 800, 1600, 1800, 2000, 2500, 2700, 3000], sequence: [1600, 2000, 500] },
+"wooden alhmira w6": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1700, 3000, 800] },
+"wooden alhmira w7": { options: [500, 800, 1500, 1800, 2000, 2500, 2700, 3000], sequence: [1800, 2700, 500] },
+"wooden alhmira w8": { options: [1000, 1700, 2000, 2500, 2800, 3500, 4200, 4500, 5000], sequence: [2800, 2000, 4200] },
+"sagun alhmira s1": { options: [2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6500, 7000], sequence: [3000, 2000, 5500] },
+"sagun alhmira s2": { options: [2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6500, 7000], sequence: [3500, 7000, 2500] },
+"sagun alhmira s3": { options: [2500, 3500, 4500, 5500, 6000, 7500, 8500, 10000], sequence: [6000, 4500, 2500] },
+"sagun alhmira s4": { options: [2000, 2500, 3200, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [3200, 2000, 5500] },
+"sagun alhmira s5": { options: [2000, 2700, 3000, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [3000, 5000, 5500] },
+"sagun alhmira s6": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [3500, 2000, 6400] },
+"kohinoor alhmira m1 k1": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [4000, 2000, 6400] },
+"kohinoor alhmira fantasy k2": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5700, 6400, 7000], sequence: [5700, 3800, 7000] },
+"kohinoor alhmira fantasy k3": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [5000, 7000, 2500] },
+"kohinoor alhmira maxx k5": { options: [2000, 3500, 4200, 5800, 6500, 8000, 9200, 5200], sequence: [5800, 2000, 5200] },
+"kohinoor alhmira maxx k8": { options: [2000, 2800, 3800, 4600, 5200, 7000, 8500, 2500], sequence: [5200, 2500, 4600] },
+"kohinoor alhmira fantasy k9": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [5600, 3800, 2000] },
+"alhmira k4": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [2000, 3800, 5600] },
+"kohinoor alhmira fantasy k11": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [5300, 3800, 4000] },
+"wooden ww1": { options: [500, 800, 1300, 1800, 2000, 2500, 2800, 3000], sequence: [1300, 1800, 500] },
+"wooden ww2": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1500, 3000, 500] },
+"wooden ww3": { options: [500, 800, 1300, 1600, 2000, 2500, 2800, 3000], sequence: [1300, 800, 2500] },
+"wooden ww4": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1500, 1500, 2700] },
+"wooden ww5": { options: [500, 800, 1500, 1800, 2000, 2500, 2700, 3000], sequence: [1500, 2000, 500] },
+"wooden ww6": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1500, 3000, 800] },
+"wooden ww7": { options: [500, 800, 1500, 1800, 2000, 2500, 2700, 3000], sequence: [1500, 2700, 500] },
+"wooden ww8": { options: [1000, 1700, 2000, 2500, 2800, 3500, 4200, 4500, 5000], sequence: [2500, 2000, 4200] },
+"sagun ss1": { options: [2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6500, 7000], sequence: [2500, 2000, 5500] },
+"sagun ss2": { options: [2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6500, 7000], sequence: [3000, 7000, 2500] },
+"sagun ss3": { options: [2500, 3500, 4500, 5500, 6000, 7500, 8500, 10000], sequence: [5500, 4500, 2500] },
+"sagun ss4": { options: [2000, 2500, 3200, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [2500, 2000, 5500] },
+"sagun ss5": { options: [2000, 2700, 3000, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [2700, 5000, 5500] },
+"sagun ss6": { options: [2000, 2500, 3200, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [3200, 2000, 6400] },
+"kohinoor kk1": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [3500, 2000, 6400] },
+"kohinoor kk2": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5700, 6400, 7000], sequence: [5000, 3800, 7000] },
+"kohinoor kk3": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5500, 6400, 7000], sequence: [4600, 7000, 2500] },
+"kohinoor kk5": { options: [2000, 3500, 4200, 5000, 6500, 8000, 9200, 10000], sequence: [5000, 2000, 4200] },
+"kohinoor kk8": { options: [2000, 2800, 3800, 4600, 5200, 7000, 8500, 2500], sequence: [4600, 2500, 7000] },
+"kohinoor kk9": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [5000, 3800, 2000] },
+"kk4": { options: [2000, 2300, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [2300, 3800, 5600] },
+"kohinoor kk11": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [4600, 3800, 4000] },
+"kohinoor alhmira fantasy a17": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5400, 5800, 6400, 7000], sequence: [5400, 3800, 4000] },
+"kohinoor alhmira fantasy a30": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5800, 6400, 7000], sequence: [5200, 3800, 6400] },
+"kohinoor alhmira m1 pd11": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [4000, 3800, 5800] },
+"kohinoor alhmira chetak a22": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [5800, 3800, 4000] },
+"kohinoor alhmira gangotri pd2": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5800, 6400, 7000], sequence: [5200, 6400, 2500] },
+"kohinoor alhmira maharani pd2": { options: [2000, 2800, 3500, 4000, 4800, 5300, 5800, 6500, 7000], sequence: [4800, 7000, 2800] },
+"kohinoor alhmira gangotri a32": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5400, 5800, 6400, 7000], sequence: [5400, 3500, 7000] },
+"kohinoor alhmira office": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [4600, 2000, 3500] },
+"kohinoor alhmira office lock": { options: [2000, 2500, 3500, 3800, 4100, 4800, 5300, 5800, 6400, 7000], sequence: [4100, 7000, 3500] },
+"kohinoor alhmira fantasy a2": { options: [2000, 2800, 3500, 4000, 4500, 5000, 5800, 6500, 7000], sequence: [5000, 2000, 2800] },
+"kohinoor alhmira gangotri a2": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5500, 5800, 6400, 7000], sequence: [5500, 4000, 3500] },
+"kohinoor alhmira gangotri a31": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [5300, 2000, 7000] },
+"kohinoor alhmira gangotri a5": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5800, 6400, 7000], sequence: [5200, 3500, 2000] },
+"kohinoor alhmira fantasy a22": { options: [2000, 2800, 3500, 4000, 4800, 5200, 5800, 6500, 7000], sequence: [5200, 7000, 2800] },
+"kohinoor alhmira gangotri a30": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [5300, 2000, 3500] },
+"kohinoor alhmira maxx pd2": { options: [2000, 3500, 4000, 5300, 6400, 7500, 9200, 10000], sequence: [5300, 7500, 3500] },
+"kohinoor alhmira maxx a29": { options: [2000, 3500, 4000, 5600, 6400, 7500, 9200, 10000], sequence: [5600, 7500, 3500] },
+"kohinoor alhmira fantasy a17f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5800, 6400, 7000], sequence: [5000, 3800, 4000] },
+"kohinoor alhmira fantasy a30f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5800, 6400, 7000], sequence: [4600, 3800, 6400] },
+"kohinoor alhmira m1 pd11f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [3800, 3500, 5800] },
+"kohinoor alhmira chetak a22f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [5300, 3800, 4000] },
+"kohinoor alhmira gangotri pd2f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5800, 6400, 7000], sequence: [4600, 6400, 2500] },
+"kohinoor alhmira maharani pd2f": { options: [2000, 2800, 3500, 4000, 4800, 5100, 5800, 6500, 7000], sequence: [5100, 7000, 2800] },
+"kohinoor alhmira gangotri a32f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5800, 6400, 7000], sequence: [5000, 3500, 7000] },
+"kohinoor alhmira office f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [4000, 2000, 3500] },
+"kohinoor alhmira office lock f": { options: [2000, 2500, 3500, 3800, 4100, 4800, 5300, 5800, 6400, 7000], sequence: [3800, 7000, 3500] },
+"kohinoor alhmira fantasy a2f": { options: [2000, 2800, 3500, 4000, 4500, 5000, 5800, 6500, 7000], sequence: [4500, 2000, 2800] },
+"kohinoor alhmira gangotri a2f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5800, 6400, 7000], sequence: [5000, 4000, 3500] },
+"kohinoor alhmira gangotri a31f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5300, 5800, 6400, 7000], sequence: [4600, 2000, 7000] },
+"kohinoor alhmira gangotri a5f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5800, 6400, 7000], sequence: [4600, 3500, 2000] },
+"kohinoor alhmira fantasy a22f": { options: [2000, 2800, 3500, 4000, 4800, 5200, 5800, 6500, 7000], sequence: [4800, 7000, 2800] },
+"kohinoor alhmira gangotri a30f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5800, 6400, 7000], sequence: [5000, 2000, 3500] },
+"kohinoor alhmira maxx a29f": { options: [2000, 3500, 4000, 5100, 6400, 7500, 9200, 10000], sequence: [5100, 7500, 3500] },
+"sagun alhmira s3f": { options: [2500, 3200, 4600, 5800, 6500, 7600, 9500, 10000], sequence: [4600, 2500, 7600] },
+"dressing d1": { options: [500, 700, 1200, 1800, 2200, 2600, 3000], sequence: [1200, 2600, 1800] },
+"dressing d1f": { options: [500, 700, 1000, 1700, 2200, 2600, 3000], sequence: [1000, 2600, 1700] },
+"dressing d2": { options: [500, 800, 1300, 1800, 2200, 2600, 3000], sequence: [1300, 2600, 1800] },
+"dressing d2f": { options: [500, 800, 1100, 1800, 2200, 2600, 3000], sequence: [1100, 2600, 1800] },
+"wooden alhmira w15": { options: [500, 800, 1300, 1800, 2200, 2600, 3000], sequence: [1800, 2600, 2200] },
+"wooden alhmira w15f": { options: [500, 800, 1500, 1800, 2200, 2600, 3000], sequence: [1500, 2600, 2200] },
+"wooden alhmira w16": { options: [500, 800, 1300, 1600, 2200, 2600, 3000], sequence: [1600, 2600, 2200] },
+"wooden alhmira w16f": { options: [500, 800, 1200, 1700, 2200, 2600, 3000], sequence: [1700, 2600, 2200] },
+"wooden alhmira w8f": { options: [1000, 1700, 2000, 2500, 2800, 3500, 4200, 4500, 5000], sequence: [2500, 4500, 3500] },
+"wooden alhmira w4f": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1500, 2700, 2000] },
+"wooden alhmira w3f": { options: [500, 800, 1400, 1700, 2000, 2500, 2700, 3000], sequence: [1400, 2700, 2000] },
+"wooden alhmira w1f": { options: [500, 800, 1300, 1700, 2000, 2500, 2700, 3000], sequence: [1300, 2700, 2000] },
+"wooden alhmira w6f": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1500, 2700, 2000] },
+"wooden alhmira w17": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1700, 2700, 2000] },
+"wooden alhmira w17f": { options: [500, 800, 1500, 1700, 2000, 2500, 2700, 3000], sequence: [1500, 2700, 2000] },
+"shoe rack sr1": { options: [500, 700, 1000, 1200, 1500, 1700, 2000], sequence: [1200, 1700, 2000] },
+"shoe rack sr1f": { options: [500, 700, 1000, 1200, 1500, 1700, 2000], sequence: [1000, 1700, 2000] },
+"shoe rack sr2": { options: [500, 700, 1100, 1400, 1500, 1700, 2000], sequence: [1400, 1700, 2000] },
+"shoe rack sr2f": { options: [500, 700, 1200, 1400, 1500, 1700, 2000], sequence: [1200, 1700, 2000] },
+
+"shoe rack sr3": { options: [500, 700, 900, 1100, 1400, 1700, 2000], sequence: [1100, 500, 900] },
+"shoe rack sr3f": { options: [500, 700, 900, 1100, 1400, 1700, 2000], sequence: [900, 500, 900] },
+"shoe rack sr4": { options: [500, 700, 900, 1000, 1200, 1400, 1700, 2000], sequence: [1000, 500, 900] },
+"shoe rack sr4f": { options: [500, 800, 900, 1100, 1400, 1700, 2000], sequence: [800, 500, 900] },
+"mandir m1": { options: [500, 900, 1400, 1900, 2400, 2700, 3000], sequence: [2400, 900, 1900] },
+"mandir m1f": { options: [500, 900, 1400, 1900, 2000, 2400, 2700, 3000], sequence: [2000, 900, 1900] },
+"kohinoor alhmira fantasy k9f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [5000, 3800, 7000] },
+"kohinoor alhmira fantasy k11f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [5000, 3800, 7000] },
+"kohinoor alhmira fantasy k3f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5000, 5600, 6400, 7000], sequence: [4600, 3800, 7000] },
+"kohinoor alhmira fantasy k2f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5600, 6400, 7000], sequence: [5200, 3800, 7000] },
+"kohinoor alhmira mark": { options: [2000, 3200, 4000, 4800, 5700, 6800, 7900, 8800, 10000], sequence: [5700, 7900, 3200] },
+"kohinoor alhmira markf": { options: [2000, 3200, 4000, 4700, 5200, 6800, 7900, 8800, 10000], sequence: [5200, 7900, 3200] },
+"kohinoor alhmira maxx pd2f": { options: [2000, 3200, 4000, 4900, 5700, 6800, 7900, 8800, 10000], sequence: [4900, 7900, 3200] },
+"kohinoor alhmira officef": { options: [2000, 2500, 3500, 3800, 4200, 4600, 5200, 5600, 6400, 7000], sequence: [4200, 3800, 7000] },
+"kohinoor alhmira maxx k5f": { options: [2000, 3200, 4000, 4900, 5300, 6800, 7900, 8800, 10000], sequence: [5300, 7900, 3200] },
+"alhmira k4f": { options: [2000, 2500, 3500, 3800, 4000, 4600, 5200, 5600, 6400, 7000], sequence: [2500, 3800, 7000] },
+"sagun alhmira s1f": { options: [2000, 2800, 3500, 3800, 4200, 4600, 5200, 5600, 6400, 7000], sequence: [2800, 3800, 7000] },
+"sagun alhmira s2f": { options: [2000, 2800, 3000, 3800, 4200, 4600, 5200, 5600, 6400, 7000], sequence: [3000, 3800, 7000] },
+"dressing d3": { options: [500, 700, 1000, 1200, 1500, 1800, 2000], sequence: [1500, 1000, 1800] },
+"dressing d3f": { options: [500, 700, 1000, 1200, 1500, 1800, 2000], sequence: [1200, 1000, 1800] }
+
+,
+"dressing d4": { options: [500, 700, 1000, 1400, 1700, 2100, 2500, 2700, 3000], sequence: [2100, 1000, 3000] },
+"dressing d4f": { options: [500, 700, 1000, 1400, 1900, 2200, 2500, 2700, 3000], sequence: [1900, 1000, 3000] },
+"dressing d5": { options: [500, 700, 1000, 1400, 1900, 2300, 2500, 2700, 3000], sequence: [2300, 1000, 3000] },
+"dressing d5f": { options: [500, 700, 1000, 1400, 1900, 2300, 2500, 2700, 3000], sequence: [1900, 1000, 3000] },
+"dressing d6": { options: [500, 700, 1000, 1400, 1700, 2100, 2500, 2700, 3000], sequence: [2100, 1000, 3000] },
+"dressing d6f": { options: [500, 700, 1000, 1400, 1800, 2100, 2500, 2700, 3000], sequence: [1800, 1000, 3000] },
+"partical king 1": { options: [2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000], sequence: [6000, 3000, 9000] },
+
+"partical king 1f": { options: [2000, 3500, 4500, 5500, 6500, 7500, 8500, 9500, 9600, 10000], sequence: [5500, 3500, 9600] },
+"sagun alhmira s11": { options: [2000, 3200, 3800, 4500, 5100, 5900, 7000], sequence: [5100, 3800, 2000] },
+"sagun alhmira s11f": { options: [2000, 3200, 3800, 4500, 5100, 5900, 7000], sequence: [4500, 3800, 2000] },
+"sagun alhmira s12": { options: [2000, 3200, 3800, 4800, 5100, 5900, 7000], sequence: [4800, 3800, 2000] },
+"sagun alhmira s12f": { options: [2000, 3200, 3800, 4500, 5100, 5900, 7000], sequence: [4500, 3800, 2000] },
+"sagun alhmira s13": { options: [2000, 3200, 3800, 4300, 5100, 5900, 7000], sequence: [4300, 3800, 2000] },
+"sagun alhmira s13f": { options: [2000, 3200, 3800, 4300, 4800, 5900, 7000], sequence: [4800, 3800, 2000] },
+"sagun alhmira s14": { options: [2000, 3200, 3800, 4300, 5200, 5900, 7000], sequence: [5200, 3800, 2000] },
+"sagun alhmira s14f": { options: [2000, 3200, 3800, 4800, 5300, 5900, 7000], sequence: [4800, 3800, 2000] },
+"sagun alhmira s15": { options: [2000, 3200, 3800, 4500, 5600, 5900, 7000], sequence: [5600, 2000, 7000] },
+"sagun alhmira s15f": { options: [2000, 3200, 3800, 4500, 5000, 5900, 7000], sequence: [5000, 2000, 7000] },
+"sangam alhmira 2606": { options: [2000, 3200, 4400, 5600, 6800, 7600, 8200, 9500, 10000, 9000], sequence: [6800, 3200, 9000] },
+"sangam alhmira 2606f": { options: [2000, 3200, 4400, 5600, 6800, 7600, 8200, 9500, 10000], sequence: [5600, 2000, 10000] },
+"sangam alhmira 2601": { options: [2000, 3200, 4400, 5600, 6200, 7000, 8200, 9500, 10000], sequence: [7000, 3200, 8200] },
+"sangam alhmira 2601f": { options: [2000, 3200, 4400, 5600, 6200, 7600, 8200, 9500, 10000], sequence: [6200, 4400, 8200] },
+"kohinoor alhmira maxx a35": { options: [2000, 3200, 4400, 5400, 6200, 7000, 8200, 9500, 10000], sequence: [5400, 3200, 8200] },
+"kohinoor alhmira maxx a35f": { options: [2000, 3200, 4400, 5800, 6500, 7000, 8200, 9500, 10000], sequence: [5800, 3200, 8200] },
+"kohinoor alhmira chetak a17": { options: [2000, 2800, 3500, 4000, 4800, 5200, 5800, 6200, 7000], sequence: [6200, 7000, 2800] },
+"kohinoor alhmira chetak a17f": { options: [2000, 2800, 3500, 4000, 4800, 5200, 5800, 6200, 7000], sequence: [5200, 7000, 2800] },
+"kohinoor alhmira maxx rs15": { options: [2000, 3200, 4400, 5100, 6200, 7000, 8200, 9500, 10000], sequence: [5100, 3200, 8200] },
+"kohinoor alhmira maxx rs15f": { options: [2000, 3200, 4700, 5100, 6200, 7000, 8200, 9500, 10000], sequence: [4700, 3200, 8200] },
+"kohinoor dressing cum alhmira": { options: [2000, 3200, 4400, 5700, 6200, 7000, 8200, 9500, 10000], sequence: [5700, 3200, 8200] },
+"kohinoor dressing cum alhmiraf": { options: [2000, 3200, 4400, 5300, 6200, 7000, 8200, 9500, 10000], sequence: [5300, 3200, 8200] },
+"kohinoor alhmira chetak pd2": { options: [2000, 2800, 3500, 4000, 4800, 5200, 5800, 6200, 7000], sequence: [7000, 7000, 2800] },
+"kohinoor dressing alhmira": { options: [2000, 3200, 4400, 5700, 6200, 7000, 8600, 9500, 10000, 8200], sequence: [8600, 3200, 8200] },
+"kohinoor alhmira maxx pd1": { options: [2000, 3200, 4400, 5700, 6200, 7000, 8600, 9500, 10000, 8200], sequence: [9500, 3200, 8200] },
+
+"partical king 2": { options: [2000, 3500, 4500, 5200, 6500, 7500, 8500, 9500, 9600, 10000], sequence: [5200, 3500, 9600] },
+"partical king 3": { options: [2000, 3500, 4500, 5500, 5700, 6500, 7500, 8500, 9500, 9600, 10000], sequence: [5700, 3500, 9600] },
+"dressing": { options: [300, 500, 800, 1000, 1400, 1700, 2100, 2500, 2700, 3000], sequence: [800, 1000, 3000] },
+};
+const $=id=>document.getElementById(id);const OWNER='918084420678',COOLDOWN=3600000;
+const money=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
+const CUSTOM_KEY='spin_custom_products_v1';let customProducts={};let addProductType='cash';let pageStack=[];let adminReturnState=null;
+function normalizeProductName(value){return String(value||'').trim().toLowerCase().replace(/\s+/g,' ');}
+function productTypeOf(item){return item.type||'cash';}
+function productEntriesForName(name){const normalized=normalizeProductName(name);return Object.entries(productConfig).filter(([key,item])=>normalizeProductName(item.productName||key.replace(/::(cash|free)$/,''))===normalized);}
+function productKeyFor(name,type){const normalized=normalizeProductName(name),exact=normalized+'::'+type;if(productConfig[exact])return exact;if(type==='cash'&&productConfig[normalized]&&!productConfig[normalized].type)return normalized;return exact;}
+function loadCustomProducts(){try{customProducts=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'{}');if(!customProducts||typeof customProducts!=='object')customProducts={};}catch(e){customProducts={};}Object.entries(customProducts).forEach(([k,v])=>{if(v&&Array.isArray(v.options)&&Array.isArray(v.sequence)){if(!v.productName)v.productName=k.replace(/::(cash|free)$/,'');productConfig[k]=v;}});}
+function saveCustomProducts(){try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(customProducts));}catch(e){alert('Browser storage full/unavailable. Product may not remain after closing app.');}}
+function refreshProductSuggestions(){const list=$('productSuggestions');list.replaceChildren();const names=[...new Set(Object.entries(productConfig).map(([k,v])=>normalizeProductName(v.productName||k.replace(/::(cash|free)$/,''))))].sort();names.forEach(name=>{const o=document.createElement('option');o.value=name;list.appendChild(o);});}
+function showPage(id){
+  const ids=['adminChoicePage','addProductPage','settingsPage','productsPage'];
+  if(!adminReturnState){adminReturnState={paymentHidden:$('paymentGate').classList.contains('hidden'),leadHidden:$('overlay').classList.contains('hidden'),gameActive:$('game').classList.contains('active')};}
+  $('paymentGate').classList.add('hidden');$('overlay').classList.add('hidden');$('game').classList.remove('active');
+  ids.forEach(x=>$(x).classList.toggle('hidden',x!==id));
+  if(!pageStack.length||pageStack[pageStack.length-1]!==id)pageStack.push(id);
+  $('backBtn').style.display='flex';$('menuPanel').classList.remove('open');$('menuBtn').style.display='flex';
+}
+function renderSettings(){const keys=Object.keys(productConfig);const cash=keys.filter(k=>productTypeOf(productConfig[k])==='cash').length,free=keys.length-cash;$('settingsSummary').textContent='Total product offers: '+keys.length+'\nExtra cash discount: '+cash+'\nFree products: '+free+'\nNew products are saved on this device/browser.';$('customProductList').textContent=Object.keys(customProducts).length?Object.keys(customProducts).sort().map(k=>'• '+(customProducts[k].productName||k.replace(/::(cash|free)$/,''))+' ('+(productTypeOf(customProducts[k])==='free'?'Free product':'Cash discount')+')').join('\n'):'No custom products added yet.';}
+let productFilter='all';
+function renderProducts(){const entries=Object.entries(productConfig).filter(([k,v])=>productFilter==='all'||productTypeOf(v)===productFilter).sort((a,b)=>(a[1].productName||a[0]).localeCompare(b[1].productName||b[0]));$('productsCount').textContent=entries.length+' product offer(s)';const list=$('allProductsList');list.replaceChildren();if(!entries.length){list.textContent='No products found.';return;}entries.forEach(([key,item])=>{const row=document.createElement('div');row.className='product-row';const title=document.createElement('div');title.className='product-name';title.textContent=item.productName||key.replace(/::(cash|free)$/,'');const detail=document.createElement('div');detail.className='product-detail';const isFree=productTypeOf(item)==='free';const opts=Array.isArray(item.options)?item.options:[];const first=Array.isArray(item.sequence)&&item.sequence.length?item.sequence[0]:'Not set';detail.textContent='Type: '+(isFree?'Free Products':'Extra Cash Discount')+'\nSpin Board Options: '+opts.join(', ')+'\n1st Tap: '+first;const edit=document.createElement('button');edit.type='button';edit.className='product-edit-btn';edit.textContent='✏️';edit.title='Edit product';edit.setAttribute('aria-label','Edit '+(item.productName||key));edit.addEventListener('click',()=>openEditProduct(key,item));row.append(title,detail,edit);list.appendChild(row);});}
+let editingProductKey=null;
+function openEditProduct(key,item){
+  editingProductKey=key;
+  $('editProductName').value=item.productName||key.replace(/::(cash|free)$/,'');
+  $('editProductOptions').value=(item.options||[]).join(', ');
+  const seq=Array.isArray(item.sequence)?item.sequence:[];
+  $('editTap1').value=seq[0]??'';
+  $('editTap2').value=seq[1]??'';
+  $('editTap3').value=seq[2]??'';
+  $('productsPage').classList.add('hidden');
+  $('editProductPage').classList.remove('hidden');
+  $('menuPanel').classList.remove('open');
+  $('menuBtn').style.display='none';
+}
+$('cancelEditProduct').addEventListener('click',()=>{
+  $('editProductPage').classList.add('hidden');
+  $('productsPage').classList.remove('hidden');
+  $('menuBtn').style.display='flex';
+});
+$('editProductForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  if(!editingProductKey||!productConfig[editingProductKey])return;
+  const oldItem=productConfig[editingProductKey];
+  const name=$('editProductName').value.trim().replace(/\s+/g,' ');
+  const raw=$('editProductOptions').value.split(',').map(x=>x.trim()).filter(Boolean);
+  const taps=[$('editTap1').value.trim(),$('editTap2').value.trim(),$('editTap3').value.trim()];
+  if(!name||raw.length<2||taps.some(x=>!x)){alert('Product name, spin board options aur teeno tap results bharein.');return;}
+  let options,sequence;
+  if(productTypeOf(oldItem)==='cash'){
+    options=raw.map(x=>Number(x.replace(/[₹,\s]/g,'')));
+    const tapValues=taps.map(x=>Number(x.replace(/[₹,\s]/g,'')));
+    if(options.some(x=>!Number.isFinite(x)||x<=0)||tapValues.some(x=>!Number.isFinite(x)||x<0)){
+      alert('Cash options aur tap results valid numbers hone chahiye.');return;
+    }
+    sequence=tapValues;
+  }else{
+    options=raw;
+    if(options.some(x=>x.length>40)||taps.some(x=>x.length>40)){
+      alert('Free product names 40 characters se chhote rakhein.');return;
+    }
+    sequence=taps;
+  }
+  const type=productTypeOf(oldItem);
+  const newKey=productKeyFor(name,type);
+  const updated={type,productName:name,options:[...new Set(options)],sequence};
+  if(newKey!==editingProductKey && productConfig[newKey]){
+    if(!confirm('Is naam aur offer type ka product pehle se hai. Kya usse replace karna hai?'))return;
+  }
+  delete productConfig[editingProductKey];
+  delete customProducts[editingProductKey];
+  productConfig[newKey]=updated;
+  customProducts[newKey]=updated;
+  editingProductKey=null;
+  saveCustomProducts();refreshProductSuggestions();renderSettings();renderProducts();
+  $('editProductPage').classList.add('hidden');$('productsPage').classList.remove('hidden');
+  $('menuBtn').style.display='flex';
+  alert('Product successfully update ho gaya.');
+});
+function setProductFilter(filter){productFilter=filter;['allProductsFilter','cashProductsFilter','freeProductsFilter'].forEach(id=>$(id).classList.remove('active'));$(filter==='all'?'allProductsFilter':filter==='cash'?'cashProductsFilter':'freeProductsFilter').classList.add('active');renderProducts();}
+loadCustomProducts();
+
+let customer=null,config=null,taps=0,rotation=0,spinning=false,discount=0,claimReady=false;
+function whatsapp(message){const url='https://wa.me/'+OWNER+'?text='+encodeURIComponent(message);const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';document.body.appendChild(link);link.click();link.remove();}
+const PAYMENT_OWNER='919905343173';let expectedEnterpriseCode='';
+function makeEnterpriseCode(name,phone){const first=(name.trim().split(/\s+/)[0]||'').toLowerCase().replace(/[^a-z]/g,'');return first+phone.slice(-4);}
+$('paidBtn').addEventListener('click',()=>{const name=$('payName').value.trim(),phone=$('payPhone').value.trim();if(!name||! /^[0-9]{10}$/.test(phone)){alert('Please enter customer name and valid 10-digit phone number.');return;}expectedEnterpriseCode=makeEnterpriseCode(name,phone);if(!expectedEnterpriseCode){alert('Please enter a valid customer name.');return;}const message='₹200 PAYMENT CONFIRMATION REQUEST\nCustomer Name: '+name+'\nPhone: '+phone+'\nEnterprise Code: '+expectedEnterpriseCode+'\nPlease verify payment received before sharing/unlocking the offer.';const url='https://wa.me/'+PAYMENT_OWNER+'?text='+encodeURIComponent(message);const link=document.createElement('a');link.href=url;link.target='_blank';link.rel='noopener noreferrer';document.body.appendChild(link);link.click();link.remove();$('codeArea').hidden=false;$('enterpriseCode').value='';$('enterpriseCode').focus();});
+$('unlockOfferBtn').addEventListener('click',()=>{const entered=$('enterpriseCode').value.trim().toLowerCase();if(!expectedEnterpriseCode||entered!==expectedEnterpriseCode){alert('Incorrect Enterprise Code. Please check the code sent by the shop.');return;}if(!pendingCustomer||!pendingCustomer.selectedKey){alert('Customer offer details missing. Please start again.');return;}$('paymentGate').classList.add('hidden');startCustomerGame(pendingCustomer);$('backBtn').style.display='flex';$('menuBtn').style.display='flex';});
+
+function point(angle,r){const a=(angle-90)*Math.PI/180;return [200+r*Math.cos(a),200+r*Math.sin(a)];}
+function buildWheel(options){const svg=$('wheel'),ns='http://www.w3.org/2000/svg',colors=['#f44336','#ff9800','#00a8a8','#7e57c2','#e91e63','#2196f3','#43a047','#ef6c00','#8e24aa','#00897b'];svg.replaceChildren();const step=360/options.length;options.forEach((value,i)=>{const start=i*step-step/2,end=start+step,p1=point(start,193),p2=point(end,193);const path=document.createElementNS(ns,'path');path.setAttribute('d',`M 200 200 L ${p1[0]} ${p1[1]} A 193 193 0 0 1 ${p2[0]} ${p2[1]} Z`);path.setAttribute('fill',colors[i%colors.length]);path.setAttribute('stroke','#ffe89b');path.setAttribute('stroke-width','2');svg.appendChild(path);const [x,y]=point(i*step,135),text=document.createElementNS(ns,'text');text.setAttribute('x',x);text.setAttribute('y',y);text.setAttribute('fill','#fff');text.setAttribute('stroke','#23152b');text.setAttribute('stroke-width','2.5');text.setAttribute('paint-order','stroke');text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','middle');text.setAttribute('font-family','Poppins,Arial,sans-serif');text.setAttribute('font-weight','800');text.setAttribute('font-size',options.length>=10?'16':'19');text.textContent=value;svg.appendChild(text);});const rim=document.createElementNS(ns,'circle');rim.setAttribute('cx','200');rim.setAttribute('cy','200');rim.setAttribute('r','195');rim.setAttribute('fill','none');rim.setAttribute('stroke','#ffd700');rim.setAttribute('stroke-width','8');svg.appendChild(rim);}
+let pendingCustomer=null;
+function showOfferChoices(customerData){
+  const matches=productEntriesForName(customerData.normalizedProduct);
+  const available=matches.filter(([key,item])=>Array.isArray(item.options)&&item.options.length);
+  const container=$('availableOfferChoices');container.replaceChildren();
+  if(!available.length){alert('Is product ke liye koi offer available nahi hai. Admin se product add karwayein.');return;}
+  $('overlay').classList.add('hidden');$('offerChoicePage').classList.remove('hidden');
+  available.forEach(([key,item])=>{
+    const type=productTypeOf(item),isFree=type==='free';
+    const card=document.createElement('div');card.className='item';
+    const title=document.createElement('h3');title.textContent=isFree?'🎁 Free Products':'💵 Extra Cash Discount';
+    const options=document.createElement('p');options.className='muted';options.textContent='Spin Board Options: '+item.options.join(', ');
+    const choose=document.createElement('button');choose.type='button';choose.className='choice-btn';choose.textContent='Choose '+(isFree?'Free Products':'Extra Cash Discount');
+    choose.addEventListener('click',()=>{
+      pendingCustomer={...customerData,selectedKey:key,selectedType:type};
+      $('offerChoicePage').classList.add('hidden');$('payName').value=customerData.name;$('payPhone').value=customerData.phone;
+      $('codeArea').hidden=true;$('enterpriseCode').value='';$('paymentGate').classList.remove('hidden');
+      $('backBtn').style.display='flex';$('menuBtn').style.display='flex';
+    });
+    card.append(title,options,choose);container.appendChild(card);
+  });
+}
+$('backToCustomerForm').addEventListener('click',()=>{$('offerChoicePage').classList.add('hidden');$('overlay').classList.remove('hidden');});
+function startCustomerGame(data){
+  const cooldownKey='spin_'+data.phone+'_'+data.normalizedProduct+'_'+data.selectedType;
+  try{localStorage.setItem(cooldownKey,String(Date.now()));}catch(err){console.warn('Cooldown cannot be saved',err);}
+  customer={name:data.name,phone:data.phone,product:data.rawProduct,configProduct:data.selectedKey,price:data.price};
+  config=productConfig[data.selectedKey];taps=0;rotation=0;discount=0;claimReady=false;
+  buildWheel(config.options);$('wheel').style.transition='none';$('wheel').style.transform='rotate(0deg)';
+  $('overlay').classList.add('hidden');$('offerChoicePage').classList.add('hidden');$('paymentGate').classList.add('hidden');
+  $('game').classList.add('active');$('backBtn').style.display='flex';$('menuBtn').style.display='flex';
+  $('congrats').textContent='Good luck, '+data.name+'! 🎁';$('prices').textContent='';$('counter').textContent='Tap: 0 / 3';
+  $('spinBtn').disabled=false;$('applyBtn').hidden=true;$('status').textContent='You have 3 chances to spin.';
+}
+$('leadForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const name=$('name').value.trim(),phone=$('phone').value.trim(),rawProduct=$('product').value.trim();
+  const normalizedProduct=normalizeProductName(rawProduct),price=Number($('price').value);
+  if(!name||!rawProduct||!/^[0-9]{10}$/.test(phone)||!Number.isFinite(price)||price<=0){alert('Please enter valid details and a 10-digit phone number.');return;}
+  const matches=productEntriesForName(normalizedProduct).filter(([key,item])=>Array.isArray(item.options)&&item.options.length);
+  if(!matches.length){alert('Product not found. Please choose a product from the suggestions or add it from the menu.');return;}
+  const cooldownBase='spin_'+phone+'_'+normalizedProduct+'_';let last=0;
+  try{last=Math.max(Number(localStorage.getItem(cooldownBase+'cash')||0),Number(localStorage.getItem(cooldownBase+'free')||0));}catch(err){console.warn('Storage unavailable',err);}
+  if(last&&Date.now()-last<COOLDOWN){const mins=Math.ceil((COOLDOWN-(Date.now()-last))/60000);alert('You have already played for this product. Please try again in '+mins+' minute(s).');return;}
+  showOfferChoices({name,phone,rawProduct,normalizedProduct,price});
+});
+$('spinBtn').addEventListener('click',()=>{if(!customer||spinning||taps>=3)return;spinning=true;claimReady=false;$('spinBtn').disabled=true;$('applyBtn').hidden=true;$('status').textContent='Spinning...';const target=config.sequence[taps],index=config.options.indexOf(target);if(index<0){spinning=false;alert('Configuration error: prize not found.');return;}const current=((rotation%360)+360)%360;const desired=((360-index*360/config.options.length)%360+360)%360;const delta=(desired-current+360)%360;rotation+=360*6+delta;const wheel=$('wheel');wheel.getBoundingClientRect();wheel.style.transition='transform 4s cubic-bezier(.12,.72,.12,1)';wheel.style.transform=`rotate(${rotation}deg)`;const finish=()=>{if(!spinning)return;spinning=false;taps++;discount=target;claimReady=true;const isFree=(config.type||'cash')==='free';const final=isFree?customer.price:Math.max(0,customer.price-Number(discount));$('counter').textContent=`Tap: ${taps} / 3`;$('congrats').textContent=isFree?`Congratulations 🎉 ${customer.name} won: ${discount}`:`Congratulations 🎉 ${customer.name} you got ${money(discount)} off`;$('prices').replaceChildren();if(isFree){$('prices').textContent='Free Product • '+String(discount);}else{const old=document.createElement('span');old.className='old';old.textContent=money(customer.price)+' ❌';const newer=document.createElement('span');newer.className='new';newer.textContent=' '+money(final)+' ✅';$('prices').append(old,newer);}$('applyBtn').hidden=taps!==1;$('applyBtn').disabled=taps!==1;$('spinBtn').disabled=taps>=3;$('status').textContent=taps>=3?'All 3 spins used.':taps===1?'Claim your first-spin offer or spin again.':'Spin again to use your remaining chance.';};wheel.addEventListener('transitionend',function onEnd(e){if(e.propertyName!=='transform')return;wheel.removeEventListener('transitionend',onEnd);clearTimeout(fallback);finish();});const fallback=setTimeout(finish,4200);});
+$('backBtn').addEventListener('click',()=>{
+  if(!$('paymentGate').classList.contains('hidden')){
+    $('menuPanel').classList.remove('open');$('paymentGate').classList.add('hidden');
+    if(pendingCustomer){$('offerChoicePage').classList.remove('hidden');}
+    else{$('overlay').classList.remove('hidden');}
+    $('backBtn').style.display='flex';$('menuBtn').style.display='none';return;
+  }
+  if(!$('offerChoicePage').classList.contains('hidden')){
+    $('offerChoicePage').classList.add('hidden');$('overlay').classList.remove('hidden');document.body.classList.add('customer-open');
+    $('backBtn').style.display='flex';$('menuBtn').style.display='flex';return;
+  }
+  $('menuPanel').classList.remove('open');
+  if(pageStack.length){
+    const current=pageStack.pop();$(current).classList.add('hidden');
+    const previous=pageStack[pageStack.length-1];
+    if(previous){$(previous).classList.remove('hidden');$('backBtn').style.display='flex';$('menuBtn').style.display='none';return;}
+    // When the admin page stack is empty, return to the customer details form.
+    // Do not fall through to the business login or reopen the QR payment screen.
+    $('adminChoicePage').classList.add('hidden');
+    $('addProductPage').classList.add('hidden');
+    $('settingsPage').classList.add('hidden');
+    $('productsPage').classList.add('hidden');
+    $('editProductPage').classList.add('hidden');
+    $('paymentGate').classList.add('hidden');
+    $('offerChoicePage').classList.add('hidden');
+    $('game').classList.remove('active');
+    $('overlay').classList.remove('hidden');
+    document.body.classList.add('customer-open');
+    $('backBtn').style.display='flex';
+    $('menuBtn').style.display='flex';
+    pageStack=[];
+    adminReturnState=null;
+    return;
+  }
+  if(!$('overlay').classList.contains('hidden')){
+    $('overlay').classList.add('hidden');
+    $('paymentGate').classList.add('hidden');
+    $('offerChoicePage').classList.add('hidden');
+    $('game').classList.remove('active');
+    $('menuPanel').classList.remove('open');
+    document.body.classList.remove('customer-open');
+    $('backBtn').style.display='none';$('menuBtn').style.display='none';
+    if(typeof showBusinessLogin==='function'){showBusinessLogin();}
+    else{$('businessLoginGate').classList.remove('hidden');}
+    return;
+  }
+  if($('game').classList.contains('active')){spinning=false;$('wheel').style.transition='none';$('game').classList.remove('active');$('overlay').classList.remove('hidden');$('backBtn').style.display='flex';$('menuBtn').style.display='flex';$('status').textContent='You have 3 chances to spin.';}
+});
+$('applyBtn').addEventListener('click',()=>{if(!customer||!claimReady||spinning||taps!==1)return;claimReady=false;$('applyBtn').disabled=true;const isFree=(config.type||'cash')==='free';const final=isFree?customer.price:Math.max(0,customer.price-Number(discount));whatsapp('✅ SPIN & WIN OFFER CLAIM\nName: '+customer.name+'\nPhone: '+customer.phone+'\nProduct: '+customer.product+'\nDiscount Type: '+(isFree?'Free Products':'Extra Cash Discount')+'\n'+(isFree?'Free Product Won: '+discount:'Original Price: '+money(customer.price)+'\nDiscount: '+money(discount)+'\nFinal Price: '+money(final))+'\nSpin: '+taps+' / 3');$('status').textContent='WhatsApp opened. Send the prepared message to claim.';});
+
+// Admin menu and in-app product manager
+$('menuBtn').addEventListener('click',()=> $('menuPanel').classList.toggle('open'));
+// QR upload is available from the three-dot menu on the ₹200 payment page only.
+$('uploadQrMenuBtn').addEventListener('click',()=>{
+  $('menuPanel').classList.remove('open');
+  if($('paymentGate').classList.contains('hidden'))return;
+  // Show both choices first. Android Chrome opened from a local content:// file
+  // may not support getUserMedia; the native file picker handles Gallery/Camera.
+  $('qrChoiceGate').classList.remove('hidden');
+});
+$('chooseQrGallery').addEventListener('click',()=>{$('qrChoiceGate').classList.add('hidden');$('qrGalleryInput').click();});
+$('chooseQrCamera').addEventListener('click',()=>{$('qrChoiceGate').classList.add('hidden');$('qrCameraInput').click();});
+$('cancelQrChoice').addEventListener('click',()=>$('qrChoiceGate').classList.add('hidden'));
+function setPaymentQr(file){
+  if(!file)return;
+  if(!file.type||!file.type.startsWith('image/')){alert('Please select an image file for the QR code.');return;}
+  const reader=new FileReader();
+  reader.onload=()=>{$('paymentQrImage').src=reader.result;};
+  reader.readAsDataURL(file);
+}
+$('qrGalleryInput').addEventListener('change',e=>{setPaymentQr(e.target.files&&e.target.files[0]);e.target.value='';});
+$('qrCameraInput').addEventListener('change',e=>{setPaymentQr(e.target.files&&e.target.files[0]);e.target.value='';});
+
+$('addProductMenuBtn').addEventListener('click',()=>showPage('adminChoicePage'));
+$('settingsMenuBtn').addEventListener('click',()=>{renderSettings();showPage('settingsPage');});
+$('viewProductsBtn').addEventListener('click',()=>{setProductFilter('all');showPage('productsPage');});
+$('allProductsFilter').addEventListener('click',()=>setProductFilter('all'));
+$('cashProductsFilter').addEventListener('click',()=>setProductFilter('cash'));
+$('freeProductsFilter').addEventListener('click',()=>setProductFilter('free')); 
+$('cashTypeBtn').addEventListener('click',()=>openProductEditor('cash'));
+$('freeTypeBtn').addEventListener('click',()=>openProductEditor('free'));
+function openProductEditor(type){addProductType=type;$('addProductTitle').textContent=type==='cash'?'Add Extra Cash Discount Product':'Add Free Product';$('newProductName').value='';$('newProductOptions').value='';$('newProductFirst').value='';$('optionsHint').textContent=type==='cash'?'Cash amounts comma se alag karein. Example: 500, 800, 1000':'Free product names comma se alag karein. Example: Pillow, Table Lamp, Stool';$('firstHint').textContent=type==='cash'?'First tap amount options mein se hi hona chahiye.':'First tap free product ka naam options mein se hi hona chahiye.';showPage('addProductPage');}
+$('addProductForm').addEventListener('submit',e=>{e.preventDefault();const name=$('newProductName').value.trim().replace(/\s+/g,' '),normalized=normalizeProductName(name),key=productKeyFor(name,addProductType),raw=$('newProductOptions').value.split(',').map(x=>x.trim()).filter(Boolean),firstRaw=$('newProductFirst').value.trim();if(!name||raw.length<2){alert('Product name aur kam se kam 2 spin options bharein.');return;}let options;if(addProductType==='cash'){options=raw.map(x=>Number(x.replace(/[₹,\s]/g,'')));if(options.some(x=>!Number.isFinite(x)||x<=0)){alert('Cash options sirf valid positive numbers hone chahiye.');return;}const first=Number(firstRaw.replace(/[₹,\s]/g,''));if(!options.includes(first)){alert('First tap amount spin options mein se hona chahiye.');return;}const seq=[first,options[0],options[options.length-1]];const item={type:'cash',productName:name,options:[...new Set(options)],sequence:seq};productConfig[key]=item;customProducts[key]=item;}else{options=raw;if(options.some(x=>x.length>40)){alert('Free product option 40 characters se chhota rakhein.');return;}if(!options.some(x=>x.toLowerCase()===firstRaw.toLowerCase())){alert('First tap free product spin options mein se hona chahiye.');return;}const first=options.find(x=>x.toLowerCase()===firstRaw.toLowerCase());const item={type:'free',productName:name,options:[...new Set(options)],sequence:[first,options[0],options[options.length-1]]};productConfig[key]=item;customProducts[key]=item;}saveCustomProducts();refreshProductSuggestions();renderSettings();alert('Product successfully add ho gaya: '+name);$('addProductPage').classList.add('hidden');$('adminChoicePage').classList.remove('hidden');pageStack=['adminChoicePage'];$('backBtn').style.display='flex';$('menuBtn').style.display='none';});
+// Back navigation is handled by the single handler above.
+</script>
+<script>if ("serviceWorker" in navigator && location.protocol !== "file:") window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.warn));</script>
+
+<script>
+/* Keep Back and three-dot controls visible only while the ₹200 payment page is open. */
+(function(){
+  const gate=document.getElementById('paymentGate');
+  if(!gate)return;
+  const sync=()=>document.body.classList.toggle('payment-open',!gate.classList.contains('hidden'));
+  sync();
+  new MutationObserver(sync).observe(gate,{attributes:true,attributeFilter:['class']});
+})();
+</script>
+</body></html>

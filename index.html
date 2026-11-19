@@ -98,8 +98,8 @@ async function checkBusinessAccess(user){
   if(businessError)throw businessError;
   let businessRow=business;
   if(!businessRow){
-    const name=businessAuthEl('businessName').value.trim();
-    if(!name)throw new Error('Business Name bharein, phir login karein.');
+    const name=(user.user_metadata && user.user_metadata.business_name ? String(user.user_metadata.business_name).trim() : '') || businessAuthEl('businessName').value.trim();
+    if(!name)throw new Error('Business Name nahi mila. Login form mein Business Name bharein.');
     const {data:created,error:createError}=await businessAuthClient.from('businesses').insert({owner_id:user.id,business_name:name}).select('id,business_name').single();
     if(createError)throw createError;
     businessRow=created;
@@ -136,14 +136,12 @@ businessAuthEl('businessSignupBtn').addEventListener('click',async()=>{
   if(!email||password.length<8){businessAuthMessage('Valid email aur kam se kam 8 characters ka password bharein.');return;}
   try{
     businessAuthMessage('Creating account...');
-    const {data,error}=await businessAuthClient.auth.signUp({email,password});
+    const {data,error}=await businessAuthClient.auth.signUp({email,password,options:{data:{business_name:businessName}}});
     if(error)throw error;
     if(data.user && data.session){
-      const {error:insertError}=await businessAuthClient.from('businesses').insert({owner_id:data.user.id,business_name:businessName});
-      if(insertError)throw insertError;
       await checkBusinessAccess(data.user);
     }else{
-      businessAuthMessage('Account create ho gaya. Email verify karke login karein.');
+      businessAuthMessage('Account create ho gaya. Apne email inbox mein Supabase ka confirmation link kholein. Email verify hone ke baad isi email aur password se login karein.');
     }
   }catch(error){businessAuthMessage(error.message||'Account create nahi hua.');}
 });

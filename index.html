@@ -404,7 +404,7 @@ $('cancelEditProduct').addEventListener('click',()=>{
   $('productsPage').classList.remove('hidden');
   $('menuBtn').style.display='flex';
 });
-$('editProductForm').addEventListener('submit',e=>{
+$('editProductForm').addEventListener('submit',async e=>{
   e.preventDefault();
   if(!editingProductKey||!productConfig[editingProductKey])return;
   const oldItem=productConfig[editingProductKey];
@@ -433,15 +433,23 @@ $('editProductForm').addEventListener('submit',e=>{
   if(newKey!==editingProductKey && productConfig[newKey]){
     if(!confirm('Is naam aur offer type ka product pehle se hai. Kya usse replace karna hai?'))return;
   }
-  delete productConfig[editingProductKey];
-  delete customProducts[editingProductKey];
+  const oldKey=editingProductKey;
+  const oldCloudId=cloudProductIds[oldKey];
+  if(oldCloudId){
+    const {error:deleteError}=await businessAuthClient.from('products').delete().eq('id',oldCloudId).eq('business_id',currentBusinessId);
+    if(deleteError){alert('Cloud par purana product update nahi ho paya: '+deleteError.message);return;}
+    delete cloudProductIds[oldKey];
+  }
+  delete productConfig[oldKey];
+  delete customProducts[oldKey];
   productConfig[newKey]=updated;
   customProducts[newKey]=updated;
+  try{await saveCustomProducts();}catch(error){alert('Cloud save failed: '+(error.message||error));return;}
   editingProductKey=null;
-  saveCustomProducts();refreshProductSuggestions();renderSettings();renderProducts();
+  refreshProductSuggestions();renderSettings();renderProducts();
   $('editProductPage').classList.add('hidden');$('productsPage').classList.remove('hidden');
   $('menuBtn').style.display='flex';
-  alert('Product successfully update ho gaya.');
+  alert('Product successfully cloud par update ho gaya.');
 });
 function setProductFilter(filter){productFilter=filter;['allProductsFilter','cashProductsFilter','freeProductsFilter'].forEach(id=>$(id).classList.remove('active'));$(filter==='all'?'allProductsFilter':filter==='cash'?'cashProductsFilter':'freeProductsFilter').classList.add('active');renderProducts();}
 loadCustomProducts();
@@ -565,12 +573,26 @@ $('uploadQrMenuBtn').addEventListener('click',()=>{
 $('chooseQrGallery').addEventListener('click',()=>{$('qrChoiceGate').classList.add('hidden');$('qrGalleryInput').click();});
 $('chooseQrCamera').addEventListener('click',()=>{$('qrChoiceGate').classList.add('hidden');$('qrCameraInput').click();});
 $('cancelQrChoice').addEventListener('click',()=>$('qrChoiceGate').classList.add('hidden'));
-function setPaymentQr(file){
+async function setPaymentQr(file){
   if(!file)return;
-  if(!file.type||!file.type.startsWith('image/')){alert('Please select an image file for the QR code.');return;}
+  if(!file.type||!['image/png','image/jpeg','image/webp'].includes(file.type)){alert('QR image PNG, JPG ya WEBP format mein honi chahiye.');return;}
+  if(file.size>5*1024*1024){alert('QR image 5 MB se chhoti honi chahiye.');return;}
+  if(!currentBusinessId){alert('Pehle Business Login karein.');return;}
   const reader=new FileReader();
   reader.onload=()=>{$('paymentQrImage').src=reader.result;};
   reader.readAsDataURL(file);
+  try{
+    const ext=file.type==='image/png'?'png':file.type==='image/webp'?'webp':'jpg';
+    const path=currentBusinessId+'/payment-qr.'+ext;
+    const {error:uploadError}=await businessAuthClient.storage.from('business-assets').upload(path,file,{upsert:true,contentType:file.type});
+    if(uploadError)throw uploadError;
+    const {error:updateError}=await businessAuthClient.from('businesses').update({payment_qr_path:path}).eq('id',currentBusinessId);
+    if(updateError)throw updateError;
+    const {data:qr,error:signError}=await businessAuthClient.storage.from('business-assets').createSignedUrl(path,3600);
+    if(signError)throw signError;
+    if(qr&&qr.signedUrl)$('paymentQrImage').src=qr.signedUrl;
+    alert('Payment QR Supabase Cloud mein save ho gaya.');
+  }catch(error){alert('QR Cloud save failed: '+(error.message||error));}
 }
 $('qrGalleryInput').addEventListener('change',e=>{setPaymentQr(e.target.files&&e.target.files[0]);e.target.value='';});
 $('qrCameraInput').addEventListener('change',e=>{setPaymentQr(e.target.files&&e.target.files[0]);e.target.value='';});
@@ -584,7 +606,7 @@ $('freeProductsFilter').addEventListener('click',()=>setProductFilter('free'));
 $('cashTypeBtn').addEventListener('click',()=>openProductEditor('cash'));
 $('freeTypeBtn').addEventListener('click',()=>openProductEditor('free'));
 function openProductEditor(type){addProductType=type;$('addProductTitle').textContent=type==='cash'?'Add Extra Cash Discount Product':'Add Free Product';$('newProductName').value='';$('newProductOptions').value='';$('newProductFirst').value='';$('optionsHint').textContent=type==='cash'?'Cash amounts comma se alag karein. Example: 500, 800, 1000':'Free product names comma se alag karein. Example: Pillow, Table Lamp, Stool';$('firstHint').textContent=type==='cash'?'First tap amount options mein se hi hona chahiye.':'First tap free product ka naam options mein se hi hona chahiye.';showPage('addProductPage');}
-$('addProductForm').addEventListener('submit',e=>{e.preventDefault();const name=$('newProductName').value.trim().replace(/\s+/g,' '),normalized=normalizeProductName(name),key=productKeyFor(name,addProductType),raw=$('newProductOptions').value.split(',').map(x=>x.trim()).filter(Boolean),firstRaw=$('newProductFirst').value.trim();if(!name||raw.length<2){alert('Product name aur kam se kam 2 spin options bharein.');return;}let options;if(addProductType==='cash'){options=raw.map(x=>Number(x.replace(/[₹,\s]/g,'')));if(options.some(x=>!Number.isFinite(x)||x<=0)){alert('Cash options sirf valid positive numbers hone chahiye.');return;}const first=Number(firstRaw.replace(/[₹,\s]/g,''));if(!options.includes(first)){alert('First tap amount spin options mein se hona chahiye.');return;}const seq=[first,options[0],options[options.length-1]];const item={type:'cash',productName:name,options:[...new Set(options)],sequence:seq};productConfig[key]=item;customProducts[key]=item;}else{options=raw;if(options.some(x=>x.length>40)){alert('Free product option 40 characters se chhota rakhein.');return;}if(!options.some(x=>x.toLowerCase()===firstRaw.toLowerCase())){alert('First tap free product spin options mein se hona chahiye.');return;}const first=options.find(x=>x.toLowerCase()===firstRaw.toLowerCase());const item={type:'free',productName:name,options:[...new Set(options)],sequence:[first,options[0],options[options.length-1]]};productConfig[key]=item;customProducts[key]=item;}saveCustomProducts();refreshProductSuggestions();renderSettings();alert('Product successfully add ho gaya: '+name);$('addProductPage').classList.add('hidden');$('adminChoicePage').classList.remove('hidden');pageStack=['adminChoicePage'];$('backBtn').style.display='flex';$('menuBtn').style.display='none';});
+$('addProductForm').addEventListener('submit',async e=>{e.preventDefault();const name=$('newProductName').value.trim().replace(/\s+/g,' '),normalized=normalizeProductName(name),key=productKeyFor(name,addProductType),raw=$('newProductOptions').value.split(',').map(x=>x.trim()).filter(Boolean),firstRaw=$('newProductFirst').value.trim();if(!name||raw.length<2){alert('Product name aur kam se kam 2 spin options bharein.');return;}let options;if(addProductType==='cash'){options=raw.map(x=>Number(x.replace(/[₹,\s]/g,'')));if(options.some(x=>!Number.isFinite(x)||x<=0)){alert('Cash options sirf valid positive numbers hone chahiye.');return;}const first=Number(firstRaw.replace(/[₹,\s]/g,''));if(!options.includes(first)){alert('First tap amount spin options mein se hona chahiye.');return;}const seq=[first,options[0],options[options.length-1]];const item={type:'cash',productName:name,options:[...new Set(options)],sequence:seq};productConfig[key]=item;customProducts[key]=item;}else{options=raw;if(options.some(x=>x.length>40)){alert('Free product option 40 characters se chhota rakhein.');return;}if(!options.some(x=>x.toLowerCase()===firstRaw.toLowerCase())){alert('First tap free product spin options mein se hona chahiye.');return;}const first=options.find(x=>x.toLowerCase()===firstRaw.toLowerCase());const item={type:'free',productName:name,options:[...new Set(options)],sequence:[first,options[0],options[options.length-1]]};productConfig[key]=item;customProducts[key]=item;}try{await saveCustomProducts();}catch(error){delete productConfig[key];delete customProducts[key];alert('Cloud save failed: '+(error.message||error));return;}refreshProductSuggestions();renderSettings();alert('Product Supabase Cloud mein save ho gaya: '+name);$('addProductPage').classList.add('hidden');$('adminChoicePage').classList.remove('hidden');pageStack=['adminChoicePage'];$('backBtn').style.display='flex';$('menuBtn').style.display='none';});
 // Back navigation is handled by the single handler above.
 </script>
 <script>if ("serviceWorker" in navigator && location.protocol !== "file:") window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(console.warn));</script>

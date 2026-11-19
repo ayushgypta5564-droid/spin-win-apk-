@@ -88,6 +88,7 @@ body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
 const BUSINESS_SUPABASE_URL='https://weoaltycrfcnqwncpgvf.supabase.co';
 const BUSINESS_SUPABASE_KEY='sb_publishable_0A225rp9Cwf596PnaEWVZA_zFvRXR2m';
 const businessAuthClient=window.supabase.createClient(BUSINESS_SUPABASE_URL,BUSINESS_SUPABASE_KEY);
+let currentBusinessId=null;
 const businessAuthEl=id=>document.getElementById(id);
 function businessAuthMessage(message){businessAuthEl('businessAuthMessage').textContent=message;}
 function showBusinessLogin(){businessAuthEl('businessLoginGate').classList.remove('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('overlay').classList.add('hidden');businessAuthEl('game').classList.remove('active');}
@@ -104,6 +105,8 @@ async function checkBusinessAccess(user){
     if(createError)throw createError;
     businessRow=created;
   }
+  currentBusinessId=businessRow.id;
+  if(typeof loadBusinessCloudData==='function') await loadBusinessCloudData(currentBusinessId);
   const normalized=(businessRow.business_name||'').trim().toLowerCase().replace(/\s+/g,' ');
   if(normalized==='raj laxmi enterprises'){
     enterExistingApp();
@@ -331,8 +334,45 @@ function normalizeProductName(value){return String(value||'').trim().toLowerCase
 function productTypeOf(item){return item.type||'cash';}
 function productEntriesForName(name){const normalized=normalizeProductName(name);return Object.entries(productConfig).filter(([key,item])=>normalizeProductName(item.productName||key.replace(/::(cash|free)$/,''))===normalized);}
 function productKeyFor(name,type){const normalized=normalizeProductName(name),exact=normalized+'::'+type;if(productConfig[exact])return exact;if(type==='cash'&&productConfig[normalized]&&!productConfig[normalized].type)return normalized;return exact;}
-function loadCustomProducts(){try{customProducts=JSON.parse(localStorage.getItem(CUSTOM_KEY)||'{}');if(!customProducts||typeof customProducts!=='object')customProducts={};}catch(e){customProducts={};}Object.entries(customProducts).forEach(([k,v])=>{if(v&&Array.isArray(v.options)&&Array.isArray(v.sequence)){if(!v.productName)v.productName=k.replace(/::(cash|free)$/,'');productConfig[k]=v;}});}
-function saveCustomProducts(){try{localStorage.setItem(CUSTOM_KEY,JSON.stringify(customProducts));}catch(e){alert('Browser storage full/unavailable. Product may not remain after closing app.');}}
+const cloudProductIds={};
+function loadCustomProducts(){customProducts={};}
+async function loadBusinessCloudData(businessId){
+  currentBusinessId=businessId;
+  const {data,error}=await businessAuthClient.from('products').select('id,product_name,product_price,wheel_options,spin_results,product_type').eq('business_id',businessId);
+  if(error)throw error;
+  Object.keys(cloudProductIds).forEach(k=>delete cloudProductIds[k]);
+  Object.keys(customProducts).forEach(k=>delete customProducts[k]);
+  for(const row of (data||[])){
+    const type=row.product_type==='free'?'free':'cash';
+    const key=productKeyFor(row.product_name,type);
+    const options=Array.isArray(row.wheel_options)?row.wheel_options:[];
+    const sequence=Array.isArray(row.spin_results)?row.spin_results:[];
+    if(!row.product_name||options.length<2||sequence.length<1)continue;
+    const item={type,productName:row.product_name,options,sequence};
+    productConfig[key]=item;customProducts[key]=item;cloudProductIds[key]=row.id;
+  }
+  refreshProductSuggestions();
+  if(typeof renderSettings==='function')renderSettings();
+  if(typeof renderProducts==='function')renderProducts();
+  const {data:biz,error:bizError}=await businessAuthClient.from('businesses').select('payment_qr_path').eq('id',businessId).single();
+  if(bizError)throw bizError;
+  if(biz&&biz.payment_qr_path){
+    const {data:qr,error:qrError}=await businessAuthClient.storage.from('business-assets').createSignedUrl(biz.payment_qr_path,3600);
+    if(!qrError&&qr&&qr.signedUrl)$('paymentQrImage').src=qr.signedUrl;
+  }
+}
+async function saveCustomProducts(){
+  if(!currentBusinessId)throw new Error('Business account is not ready. Please login again.');
+  for(const [key,item] of Object.entries(customProducts)){
+    const payload={business_id:currentBusinessId,product_name:item.productName,product_type:item.type==='free'?'free':'cash',wheel_options:item.options,spin_results:item.sequence};
+    const existingId=cloudProductIds[key];
+    let result;
+    if(existingId) result=await businessAuthClient.from('products').update(payload).eq('id',existingId).eq('business_id',currentBusinessId).select('id').single();
+    else result=await businessAuthClient.from('products').insert(payload).select('id').single();
+    if(result.error)throw result.error;
+    cloudProductIds[key]=result.data.id;
+  }
+}
 function refreshProductSuggestions(){const list=$('productSuggestions');list.replaceChildren();const names=[...new Set(Object.entries(productConfig).map(([k,v])=>normalizeProductName(v.productName||k.replace(/::(cash|free)$/,''))))].sort();names.forEach(name=>{const o=document.createElement('option');o.value=name;list.appendChild(o);});}
 function showPage(id){
   const ids=['adminChoicePage','addProductPage','settingsPage','productsPage'];

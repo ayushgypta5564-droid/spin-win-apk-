@@ -67,7 +67,7 @@ body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
 <section class="game" id="game"><div class="result" aria-live="polite"><strong id="congrats">Spin the wheel to unlock your offer! 🎁</strong><div class="prices" id="prices"></div></div><div class="wheel-area"><div class="pointer" aria-hidden="true"></div><svg id="wheel" class="wheel-svg" viewBox="0 0 400 400" role="img" aria-label="Discount prize wheel"></svg><div class="hub">WIN</div></div><div class="controls"><div class="counter" id="counter">Tap: 0 / 3</div><button class="btn spin-btn" id="spinBtn" type="button">TAP TO SPIN 🎁</button><button class="btn apply-btn" id="applyBtn" type="button" hidden>Apply Offer ✅</button><div class="status" id="status" aria-live="polite">You have 3 chances to spin.</div></div></section></main>
 <button class="back-btn" id="backBtn" type="button" aria-label="Back to customer details" title="Back">←</button>
 <button class="menu-btn" id="menuBtn" type="button" aria-label="More options" title="More options">⋮</button>
-<div class="menu-panel" id="menuPanel"><button type="button" id="uploadQrMenuBtn">📷 Upload QR</button><button type="button" id="settingsMenuBtn">⚙️ Settings</button><button type="button" id="addProductMenuBtn">＋ Add Product</button></div>
+<div class="menu-panel" id="menuPanel"><button type="button" id="uploadQrMenuBtn">📷 Upload QR</button><button type="button" id="settingsMenuBtn">⚙️ Settings</button><button type="button" id="addProductMenuBtn">＋ Add Product</button><button type="button" id="businessLogoutBtn">🚪 Logout</button></div>
 <div class="overlay hidden admin-layer" id="adminChoicePage"><section class="form-card admin-card"><h2 class="page-title">Add Product</h2><button class="choice-btn" id="cashTypeBtn" type="button">💵 Extra Cash Discount</button><button class="choice-btn" id="freeTypeBtn" type="button">🎁 Free Products</button></section></div>
 <div class="overlay hidden admin-layer" id="addProductPage"><form class="form-card admin-card" id="addProductForm"><h2 class="page-title" id="addProductTitle">Add Product</h2><label for="newProductName">Add Product Name</label><input id="newProductName" required maxlength="100" placeholder="Enter product name"><label for="newProductOptions">Spin Board Options</label><textarea id="newProductOptions" required placeholder="Example: 500, 800, 1000, 1500"></textarea><p class="field-hint" id="optionsHint">Options ko comma se alag karein.</p><label for="newProductFirst">First Tap Result</label><input id="newProductFirst" required placeholder="Enter first tap result"><p class="field-hint" id="firstHint">First tap result options mein se hi hona chahiye.</p><button class="btn" type="submit">Add Product</button></form></div>
 <div class="overlay hidden admin-layer" id="settingsPage"><section class="form-card admin-card"><h2 class="page-title">Settings ⚙️</h2><p class="admin-list" id="settingsSummary"></p><button class="choice-btn" id="viewProductsBtn" type="button">📦 Products</button><h3>Custom Products</h3><div class="admin-list" id="customProductList">No custom products added yet.</div></section></div>
@@ -565,6 +565,25 @@ $('applyBtn').addEventListener('click',()=>{if(!customer||!claimReady||spinning|
 
 // Admin menu and in-app product manager
 $('menuBtn').addEventListener('click',()=> $('menuPanel').classList.toggle('open'));
+$('businessLogoutBtn').addEventListener('click',async()=>{
+  if(!confirm('Kya aap Business Account se Logout karna chahte hain?'))return;
+  $('menuPanel').classList.remove('open');
+  try{
+    const {error}=await businessAuthClient.auth.signOut();
+    if(error)throw error;
+    currentBusinessId=null;
+    document.body.classList.remove('customer-open','payment-open');
+    $('paymentGate').classList.add('hidden');
+    $('overlay').classList.add('hidden');
+    $('game').classList.remove('active');
+    ['adminChoicePage','addProductPage','settingsPage','productsPage','editProductPage','qrChoiceGate'].forEach(id=>{const el=$(id);if(el)el.classList.add('hidden');});
+    $('backBtn').style.display='none';
+    $('menuBtn').style.display='none';
+    pageStack=[];adminReturnState=null;
+    showBusinessLogin();
+    businessAuthMessage('Successfully logged out.');
+  }catch(error){alert('Logout failed: '+(error.message||error));}
+});
 // QR upload is available from the three-dot menu on the ₹200 payment page only.
 $('uploadQrMenuBtn').addEventListener('click',()=>{
   $('menuPanel').classList.remove('open');

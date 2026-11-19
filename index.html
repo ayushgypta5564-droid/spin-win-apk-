@@ -335,11 +335,14 @@ function productTypeOf(item){return item.type||'cash';}
 function productEntriesForName(name){const normalized=normalizeProductName(name);return Object.entries(productConfig).filter(([key,item])=>normalizeProductName(item.productName||key.replace(/::(cash|free)$/,''))===normalized);}
 function productKeyFor(name,type){const normalized=normalizeProductName(name),exact=normalized+'::'+type;if(productConfig[exact])return exact;if(type==='cash'&&productConfig[normalized]&&!productConfig[normalized].type)return normalized;return exact;}
 const cloudProductIds={};
+const cloudProductKeys=new Set();
 function loadCustomProducts(){customProducts={};}
 async function loadBusinessCloudData(businessId){
   currentBusinessId=businessId;
   const {data,error}=await businessAuthClient.from('products').select('id,product_name,product_price,wheel_options,spin_results,product_type').eq('business_id',businessId);
   if(error)throw error;
+  cloudProductKeys.forEach(k=>delete productConfig[k]);
+  cloudProductKeys.clear();
   Object.keys(cloudProductIds).forEach(k=>delete cloudProductIds[k]);
   Object.keys(customProducts).forEach(k=>delete customProducts[k]);
   for(const row of (data||[])){
@@ -349,7 +352,7 @@ async function loadBusinessCloudData(businessId){
     const sequence=Array.isArray(row.spin_results)?row.spin_results:[];
     if(!row.product_name||options.length<2||sequence.length<1)continue;
     const item={type,productName:row.product_name,options,sequence};
-    productConfig[key]=item;customProducts[key]=item;cloudProductIds[key]=row.id;
+    productConfig[key]=item;customProducts[key]=item;cloudProductIds[key]=row.id;cloudProductKeys.add(key);
   }
   refreshProductSuggestions();
   if(typeof renderSettings==='function')renderSettings();

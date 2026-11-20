@@ -77,4 +77,4 @@ jobs:
         env:
           CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
         run: |
-          npx @capgo/cli@latest bundle upload --channel=production
+          npx @capgo/cli@latest bundle upload com.rajlaxmi.spinwin --channel=production --auto-bump --apikey "$CAPGO_TOKEN"

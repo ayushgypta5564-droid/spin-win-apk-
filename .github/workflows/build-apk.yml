@@ -11,6 +11,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,7 +73,7 @@ jobs:
 
       # Live bundle publishing is enabled after CAPGO_TOKEN is added as a GitHub Actions secret.
       - name: Publish OTA bundle to production channel
-        if: ${{ secrets.CAPGO_TOKEN != '' }}
+        if: ${{ env.CAPGO_TOKEN != '' }}
         env:
           CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
         run: |

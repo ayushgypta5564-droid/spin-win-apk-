@@ -5,6 +5,7 @@ on:
   push:
     paths:
       - 'index.html'
+      - 'updater.js'
       - '.github/workflows/build-apk.yml'
 
 jobs:
@@ -25,15 +26,33 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Prepare Capacitor project
+      - name: Prepare Capacitor project with OTA updater
         run: |
           test -f index.html
+          test -f updater.js
           mkdir -p www
           cp index.html www/index.html
           npm init -y
-          npm install @capacitor/core@7 @capacitor/android@7
-          npm install --save-dev @capacitor/cli@7
+          npm install @capacitor/core@7 @capacitor/android@7 @capgo/capacitor-updater@lts-v7
+          npm install --save-dev @capacitor/cli@7 esbuild
           npx cap init "Spin Win" "com.rajlaxmi.spinwin" --web-dir=www
+          cat > capacitor.config.json <<'EOF'
+          {
+            "appId": "com.rajlaxmi.spinwin",
+            "appName": "Spin Win",
+            "webDir": "www",
+            "plugins": {
+              "CapacitorUpdater": {
+                "appId": "com.rajlaxmi.spinwin",
+                "autoUpdate": "atBackground",
+                "defaultChannel": "production",
+                "version": "1.0.0",
+                "resetWhenUpdate": true
+              }
+            }
+          }
+          EOF
+          npx esbuild updater.js --bundle --format=iife --outfile=www/updater.bundle.js
           npx cap add android
           npx cap sync android
 
@@ -46,6 +65,14 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: spin-win-debug-apk
+          name: spin-win-ota-enabled-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+
+      # Live bundle publishing is enabled after CAPGO_TOKEN is added as a GitHub Actions secret.
+      - name: Publish OTA bundle to production channel
+        if: ${{ secrets.CAPGO_TOKEN != '' }}
+        env:
+          CAPGO_TOKEN: ${{ secrets.CAPGO_TOKEN }}
+        run: |
+          npx @capgo/cli@latest bundle upload --channel=production

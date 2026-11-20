@@ -1,4 +1,5 @@
 // Spin & Win OTA bootstrap. Does not alter business logic or app data.
+// Trigger OTA publishing after CAPGO_TOKEN was added to repository secrets.
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 
 const markAppReady = async () => {

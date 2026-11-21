@@ -427,12 +427,9 @@ async function deleteBusinessProduct(key,item){
   const productName=item.productName||key.replace(/::(cash|free)$/,'');
   if(!confirm('This product ('+productName+') will be deleted permanently.\\n\\nOK = Delete\\nCancel = Keep product'))return;
   if(!currentBusinessId){alert('Business login required.');return;}
-  const cloudId=cloudProductIds[key];
   try{
-    if(cloudId){
-      const {error}=await businessAuthClient.from('products').delete().eq('id',cloudId).eq('business_id',currentBusinessId);
-      if(error)throw error;
-    }
+    // Keep the products row in Supabase: spin_sessions may reference it.
+    // deleted_product_keys hides it from this business's active product list.
     const {data:business,error:readError}=await businessAuthClient.from('businesses').select('deleted_product_keys').eq('id',currentBusinessId).single();
     if(readError)throw readError;
     const hidden=Array.isArray(business.deleted_product_keys)?business.deleted_product_keys:[];
@@ -441,7 +438,7 @@ async function deleteBusinessProduct(key,item){
     if(updateError)throw updateError;
     delete productConfig[key];delete customProducts[key];delete cloudProductIds[key];cloudProductKeys.delete(key);
     refreshProductSuggestions();renderProducts();renderSettings();
-    alert('Product permanently deleted.');
+    alert('Product list se remove ho gaya. Purane spin records safe rahenge.');
   }catch(error){alert('Product delete nahi hua: '+(error.message||error));}
 }
 let editingProductKey=null;
@@ -466,15 +463,15 @@ $('cancelEditProduct').addEventListener('click',()=>{
 $('editProductForm').addEventListener('submit',async e=>{
   e.preventDefault();
   if(!editingProductKey||!productConfig[editingProductKey])return;
-  const oldItem=productConfig[editingProductKey];
-  const name=$('editProductName').value.trim().replace(/\s+/g,' ');
+  const oldKey=editingProductKey,oldItem=productConfig[oldKey];
+  const name=$('editProductName').value.trim().replace(/\\s+/g,' ');
   const raw=$('editProductOptions').value.split(',').map(x=>x.trim()).filter(Boolean);
   const taps=[$('editTap1').value.trim(),$('editTap2').value.trim(),$('editTap3').value.trim()];
   if(!name||raw.length<2||taps.some(x=>!x)){alert('Product name, spin board options aur teeno tap results bharein.');return;}
   let options,sequence;
   if(productTypeOf(oldItem)==='cash'){
-    options=raw.map(x=>Number(x.replace(/[₹,\s]/g,'')));
-    const tapValues=taps.map(x=>Number(x.replace(/[₹,\s]/g,'')));
+    options=raw.map(x=>Number(x.replace(/[₹,\\s]/g,'')));
+    const tapValues=taps.map(x=>Number(x.replace(/[₹,\\s]/g,'')));
     if(options.some(x=>!Number.isFinite(x)||x<=0)||tapValues.some(x=>!Number.isFinite(x)||x<0)){
       alert('Cash options aur tap results valid numbers hone chahiye.');return;
     }
@@ -489,26 +486,29 @@ $('editProductForm').addEventListener('submit',async e=>{
   const type=productTypeOf(oldItem);
   const newKey=productKeyFor(name,type);
   const updated={type,productName:name,options:[...new Set(options)],sequence};
-  if(newKey!==editingProductKey && productConfig[newKey]){
-    if(!confirm('Is naam aur offer type ka product pehle se hai. Kya usse replace karna hai?'))return;
+  if(newKey!==oldKey && productConfig[newKey]){
+    alert('Is naam aur offer type ka product pehle se maujood hai. Pehle us product ko alag naam dein.');
+    return;
   }
-  const oldKey=editingProductKey;
   const oldCloudId=cloudProductIds[oldKey];
-  if(oldCloudId){
-    const {error:deleteError}=await businessAuthClient.from('products').delete().eq('id',oldCloudId).eq('business_id',currentBusinessId);
-    if(deleteError){alert('Cloud par purana product update nahi ho paya: '+deleteError.message);return;}
-    delete cloudProductIds[oldKey];
-  }
-  delete productConfig[oldKey];
-  delete customProducts[oldKey];
-  productConfig[newKey]=updated;
-  customProducts[newKey]=updated;
-  try{await saveCustomProducts();}catch(error){alert('Cloud save failed: '+(error.message||error));return;}
-  editingProductKey=null;
-  refreshProductSuggestions();renderSettings();renderProducts();
-  $('editProductPage').classList.add('hidden');$('productsPage').classList.remove('hidden');
-  $('menuBtn').style.display='flex';
-  alert('Product successfully cloud par update ho gaya.');
+  try{
+    if(oldCloudId){
+      const payload={business_id:currentBusinessId,product_name:updated.productName,product_type:type==='free'?'free':'cash',wheel_options:updated.options,spin_results:updated.sequence};
+      const {error}=await businessAuthClient.from('products').update(payload).eq('id',oldCloudId).eq('business_id',currentBusinessId);
+      if(error)throw error;
+    }
+    // Update the existing row in place so historical spin_sessions keep their FK.
+    delete productConfig[oldKey];delete customProducts[oldKey];
+    productConfig[newKey]=updated;customProducts[newKey]=updated;
+    if(oldCloudId){delete cloudProductIds[oldKey];cloudProductIds[newKey]=oldCloudId;}
+    if(cloudProductKeys.has(oldKey)){cloudProductKeys.delete(oldKey);cloudProductKeys.add(newKey);}
+    if(!oldCloudId)await saveCustomProducts();
+    editingProductKey=null;
+    refreshProductSuggestions();renderSettings();renderProducts();
+    $('editProductPage').classList.add('hidden');$('productsPage').classList.remove('hidden');
+    $('menuBtn').style.display='flex';
+    alert('Product successfully cloud par update ho gaya.');
+  }catch(error){alert('Cloud par product update nahi ho paya: '+(error.message||error));}
 });
 function setProductFilter(filter){productFilter=filter;['allProductsFilter','cashProductsFilter','freeProductsFilter'].forEach(id=>$(id).classList.remove('active'));$(filter==='all'?'allProductsFilter':filter==='cash'?'cashProductsFilter':'freeProductsFilter').classList.add('active');renderProducts();}
 loadCustomProducts();

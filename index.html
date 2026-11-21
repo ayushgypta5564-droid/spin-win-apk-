@@ -16,7 +16,7 @@
 .menu-btn{position:fixed;z-index:60;top:calc(env(safe-area-inset-top) + 10px);right:12px;width:42px;height:42px;border:1px solid #ffd700;border-radius:50%;background:#29183f;color:#ffd700;font:800 25px/1 Arial;cursor:pointer;box-shadow:0 3px 12px #0008;display:none;align-items:center;justify-content:center}
 .menu-panel{position:fixed;z-index:95;top:calc(env(safe-area-inset-top) + 58px);right:12px;width:170px;background:#29183f;border:1px solid #ffd700;border-radius:12px;padding:7px;box-shadow:0 8px 24px #0009;display:none}
 .menu-panel.open{display:block}.menu-panel button{width:100%;border:0;background:transparent;color:white;text-align:left;padding:12px;border-radius:8px;font:600 14px Poppins,Arial}.menu-panel button:active{background:#ffffff20}
-.admin-card{max-height:calc(100dvh - 28px);overflow-y:auto;text-align:left}.admin-card h2{text-align:center}.admin-card .btn{width:100%;margin-top:12px}.admin-card select,.admin-card textarea{width:100%;padding:11px 12px;border:1px solid #a991bc;border-radius:9px;background:#fff;color:#1d1131;font:500 14px Poppins,Arial}.admin-card textarea{min-height:85px;resize:vertical}.choice-btn{display:block;width:100%;padding:15px;margin:12px 0 0;border:1px solid #ffd700;border-radius:12px;background:#ffffff12;color:white;font:700 15px Poppins,Arial}.admin-list{font-size:12px;line-height:1.7;color:#eee;overflow-wrap:anywhere}.product-row{position:relative;padding:11px 44px 11px 0;border-bottom:1px solid #ffffff25}.product-edit-btn{position:absolute;right:0;top:12px;width:36px;height:36px;border:1px solid #ffd700;border-radius:9px;background:#ffffff12;color:#ffd700;font-size:18px;display:grid;place-items:center;cursor:pointer}.product-row:last-child{border-bottom:0}.product-name{font-weight:700;color:#ffe36b;font-size:13px}.product-detail{font-size:11px;color:#eee;margin-top:4px;line-height:1.55;overflow-wrap:anywhere}.products-toolbar{display:flex;gap:8px;margin:10px 0}.products-toolbar button{flex:1;border:1px solid #ffd700;border-radius:9px;background:#ffffff12;color:#fff;padding:9px 5px;font:600 11px Poppins,Arial}.products-toolbar button.active{background:#ffd700;color:#281600}.products-count{font-size:11px;color:#cfc1dc;margin:4px 0 10px}.page-title{text-align:center;color:#ffd700;font-size:21px;margin:5px 0 15px}.field-hint{font-size:10px;color:#cfc1dc;margin-top:4px}.game-topline{height:42px;width:100%;flex:0 0 42px}
+.admin-card{max-height:calc(100dvh - 28px);overflow-y:auto;text-align:left}.admin-card h2{text-align:center}.admin-card .btn{width:100%;margin-top:12px}.admin-card select,.admin-card textarea{width:100%;padding:11px 12px;border:1px solid #a991bc;border-radius:9px;background:#fff;color:#1d1131;font:500 14px Poppins,Arial}.admin-card textarea{min-height:85px;resize:vertical}.choice-btn{display:block;width:100%;padding:15px;margin:12px 0 0;border:1px solid #ffd700;border-radius:12px;background:#ffffff12;color:white;font:700 15px Poppins,Arial}.admin-list{font-size:12px;line-height:1.7;color:#eee;overflow-wrap:anywhere}.product-row{position:relative;padding:11px 44px 11px 0;border-bottom:1px solid #ffffff25}.product-actions{display:flex;align-items:center;justify-content:flex-end;gap:8px;margin-top:9px}.product-edit-btn,.product-delete-btn{position:static;width:auto;min-width:38px;height:34px;border:1px solid #ffd700;border-radius:8px;background:#ffffff12;color:#ffd700;display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:0 9px;font:600 12px Poppins,Arial;cursor:pointer}.product-edit-btn{width:36px;min-width:36px;height:34px;font-size:15px;padding:0}.product-delete-btn{border-color:#ff7b86;color:#ffb0b7;background:#ff536012}.product-edit-btn:active,.product-delete-btn:active{transform:scale(.96)}.product-row:last-child{border-bottom:0}.product-name{font-weight:700;color:#ffe36b;font-size:13px}.product-detail{font-size:11px;color:#eee;margin-top:4px;line-height:1.55;overflow-wrap:anywhere}.products-toolbar{display:flex;gap:8px;margin:10px 0}.products-toolbar button{flex:1;border:1px solid #ffd700;border-radius:9px;background:#ffffff12;color:#fff;padding:9px 5px;font:600 11px Poppins,Arial}.products-toolbar button.active{background:#ffd700;color:#281600}.products-count{font-size:11px;color:#cfc1dc;margin:4px 0 10px}.page-title{text-align:center;color:#ffd700;font-size:21px;margin:5px 0 15px}.field-hint{font-size:10px;color:#cfc1dc;margin-top:4px}.game-topline{height:42px;width:100%;flex:0 0 42px}
 
 #businessLoginGate .form-card,#subscriptionRequiredGate .form-card{max-height:92dvh;overflow-y:auto}
 #businessLoginGate button,#subscriptionRequiredGate button{border:0;border-radius:10px;padding:12px;font:700 14px Poppins,Arial;cursor:pointer}
@@ -342,6 +342,9 @@ const cloudProductKeys=new Set();
 function loadCustomProducts(){customProducts={};}
 async function loadBusinessCloudData(businessId){
   currentBusinessId=businessId;
+  const {data:businessSettings,error:settingsError}=await businessAuthClient.from('businesses').select('deleted_product_keys').eq('id',businessId).single();
+  if(settingsError)throw settingsError;
+  const deletedProductKeys=Array.isArray(businessSettings.deleted_product_keys)?businessSettings.deleted_product_keys:[];
   const {data,error}=await businessAuthClient.from('products').select('id,product_name,product_price,wheel_options,spin_results,product_type').eq('business_id',businessId);
   if(error)throw error;
   cloudProductKeys.forEach(k=>delete productConfig[k]);
@@ -357,6 +360,7 @@ async function loadBusinessCloudData(businessId){
     const item={type,productName:row.product_name,options,sequence};
     productConfig[key]=item;customProducts[key]=item;cloudProductIds[key]=row.id;cloudProductKeys.add(key);
   }
+  for(const hiddenKey of deletedProductKeys){delete productConfig[hiddenKey];delete customProducts[hiddenKey];}
   refreshProductSuggestions();
   if(typeof renderSettings==='function')renderSettings();
   if(typeof renderProducts==='function')renderProducts();
@@ -399,7 +403,47 @@ function showPage(id){
 }
 function renderSettings(){const keys=Object.keys(productConfig);const cash=keys.filter(k=>productTypeOf(productConfig[k])==='cash').length,free=keys.length-cash;$('settingsSummary').textContent='Total product offers: '+keys.length+'\nExtra cash discount: '+cash+'\nFree products: '+free+'\nNew products are saved on this device/browser.';$('customProductList').textContent=Object.keys(customProducts).length?Object.keys(customProducts).sort().map(k=>'• '+(customProducts[k].productName||k.replace(/::(cash|free)$/,''))+' ('+(productTypeOf(customProducts[k])==='free'?'Free product':'Cash discount')+')').join('\n'):'No custom products added yet.';}
 let productFilter='all';
-function renderProducts(){const entries=Object.entries(productConfig).filter(([k,v])=>productFilter==='all'||productTypeOf(v)===productFilter).sort((a,b)=>(a[1].productName||a[0]).localeCompare(b[1].productName||b[0]));$('productsCount').textContent=entries.length+' product offer(s)';const list=$('allProductsList');list.replaceChildren();if(!entries.length){list.textContent='No products found.';return;}entries.forEach(([key,item])=>{const row=document.createElement('div');row.className='product-row';const title=document.createElement('div');title.className='product-name';title.textContent=item.productName||key.replace(/::(cash|free)$/,'');const detail=document.createElement('div');detail.className='product-detail';const isFree=productTypeOf(item)==='free';const opts=Array.isArray(item.options)?item.options:[];const first=Array.isArray(item.sequence)&&item.sequence.length?item.sequence[0]:'Not set';detail.textContent='Type: '+(isFree?'Free Products':'Extra Cash Discount')+'\nSpin Board Options: '+opts.join(', ')+'\n1st Tap: '+first;const edit=document.createElement('button');edit.type='button';edit.className='product-edit-btn';edit.textContent='✏️';edit.title='Edit product';edit.setAttribute('aria-label','Edit '+(item.productName||key));edit.addEventListener('click',()=>openEditProduct(key,item));row.append(title,detail,edit);list.appendChild(row);});}
+function renderProducts(){
+  const entries=Object.entries(productConfig).filter(([k,v])=>productFilter==='all'||productTypeOf(v)===productFilter).sort((a,b)=>(a[1].productName||a[0]).localeCompare(b[1].productName||b[0]));
+  $('productsCount').textContent=entries.length+' product offer(s)';
+  const list=$('allProductsList');list.replaceChildren();
+  if(!entries.length){list.textContent='No products found.';return;}
+  entries.forEach(([key,item])=>{
+    const row=document.createElement('div');row.className='product-row';
+    const title=document.createElement('div');title.className='product-name';title.textContent=item.productName||key.replace(/::(cash|free)$/,'');
+    const detail=document.createElement('div');detail.className='product-detail';
+    const isFree=productTypeOf(item)==='free';const opts=Array.isArray(item.options)?item.options:[];
+    const first=Array.isArray(item.sequence)&&item.sequence.length?item.sequence[0]:'Not set';
+    detail.textContent='Type: '+(isFree?'Free Products':'Extra Cash Discount')+'\\nSpin Board Options: '+opts.join(', ')+'\\n1st Tap: '+first;
+    const actions=document.createElement('div');actions.className='product-actions';
+    const edit=document.createElement('button');edit.type='button';edit.className='product-edit-btn';edit.textContent='✏️';edit.title='Edit product';edit.setAttribute('aria-label','Edit '+(item.productName||key));
+    edit.addEventListener('click',()=>openEditProduct(key,item));
+    const del=document.createElement('button');del.type='button';del.className='product-delete-btn';del.textContent='🗑️ Delete';del.title='Delete product';
+    del.addEventListener('click',()=>deleteBusinessProduct(key,item));
+    actions.append(edit,del);row.append(title,detail,actions);list.appendChild(row);
+  });
+}
+async function deleteBusinessProduct(key,item){
+  const productName=item.productName||key.replace(/::(cash|free)$/,'');
+  if(!confirm('This product ('+productName+') will be deleted permanently.\\n\\nOK = Delete\\nCancel = Keep product'))return;
+  if(!currentBusinessId){alert('Business login required.');return;}
+  const cloudId=cloudProductIds[key];
+  try{
+    if(cloudId){
+      const {error}=await businessAuthClient.from('products').delete().eq('id',cloudId).eq('business_id',currentBusinessId);
+      if(error)throw error;
+    }
+    const {data:business,error:readError}=await businessAuthClient.from('businesses').select('deleted_product_keys').eq('id',currentBusinessId).single();
+    if(readError)throw readError;
+    const hidden=Array.isArray(business.deleted_product_keys)?business.deleted_product_keys:[];
+    if(!hidden.includes(key))hidden.push(key);
+    const {error:updateError}=await businessAuthClient.from('businesses').update({deleted_product_keys:hidden}).eq('id',currentBusinessId);
+    if(updateError)throw updateError;
+    delete productConfig[key];delete customProducts[key];delete cloudProductIds[key];cloudProductKeys.delete(key);
+    refreshProductSuggestions();renderProducts();renderSettings();
+    alert('Product permanently deleted.');
+  }catch(error){alert('Product delete nahi hua: '+(error.message||error));}
+}
 let editingProductKey=null;
 function openEditProduct(key,item){
   editingProductKey=key;

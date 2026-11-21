@@ -55,6 +55,19 @@ jobs:
           }
           EOF
           npx esbuild updater.js --bundle --format=iife --outfile=www/updater.bundle.js
+          # Ensure the native Capgo updater bootstrap actually runs inside the WebView.
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('www/index.html')
+          html = p.read_text()
+          tag = '<script src="./updater.bundle.js"></script>'
+          if tag not in html:
+              if '</body>' not in html:
+                  raise SystemExit('index.html has no closing </body> tag')
+              html = html.replace('</body>', tag + '\\n</body>', 1)
+              p.write_text(html)
+          PY
+          grep -q 'updater.bundle.js' www/index.html
           npx cap add android
           npx cap sync android
 

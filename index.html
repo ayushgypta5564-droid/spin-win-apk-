@@ -57,8 +57,11 @@ body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
 </div>
 <div class="overlay hidden" id="subscriptionRequiredGate" style="z-index:100">
   <div class="form-card">
-    <h2>Subscription Required</h2>
-    <p id="subscriptionMessage">Please purchase a subscription to continue.</p>
+    <h2>Choose Subscription</h2>
+    <p id="subscriptionMessage">Choose a plan to activate your business account.</p>
+    <button type="button" id="subscribeMonthlyBtn">Monthly Subscription · ₹499</button>
+    <button type="button" id="subscribeYearlyBtn">Yearly Subscription · ₹4,999</button>
+    <p class="hint" id="subscriptionPaymentMessage" role="status"></p>
     <button type="button" id="subscriptionLogoutBtn">Logout</button>
   </div>
 </div>
@@ -121,7 +124,7 @@ async function checkBusinessAccess(user){
   if(active){enterExistingApp();return;}
   businessAuthEl('businessLoginGate').classList.add('hidden');
   businessAuthEl('subscriptionRequiredGate').classList.remove('hidden');
-  businessAuthEl('subscriptionMessage').textContent='Is business account ke liye subscription zaroori hai. Monthly ₹499 / Yearly ₹4,999. Razorpay payment setup abhi add nahi kiya gaya hai.';
+  businessAuthEl('subscriptionMessage').textContent='Apne business ke liye plan select karein. Payment Razorpay ke secure checkout se hoga.';
 }
 businessAuthEl('businessLoginForm').addEventListener('submit',async event=>{
   event.preventDefault();
@@ -151,6 +154,55 @@ businessAuthEl('businessSignupBtn').addEventListener('click',async()=>{
     }
   }catch(error){businessAuthMessage(error.message||'Account create nahi hua.');}
 });
+async function loadRazorpayCheckout(){
+  if(window.Razorpay)return;
+  await new Promise((resolve,reject)=>{
+    const script=document.createElement('script');
+    script.src='https://checkout.razorpay.com/v1/checkout.js';
+    script.onload=resolve;script.onerror=()=>reject(new Error('Razorpay Checkout load nahi hua. Internet check karein.'));
+    document.head.appendChild(script);
+  });
+}
+async function startSaasSubscription(plan){
+  const message=businessAuthEl('subscriptionPaymentMessage');
+  const monthly=plan==='monthly';
+  const button=businessAuthEl(monthly?'subscribeMonthlyBtn':'subscribeYearlyBtn');
+  try{
+    if(!currentBusinessId)throw new Error('Business account load nahi hua. Dobara login karein.');
+    button.disabled=true;message.textContent='Secure payment order banaya ja raha hai...';
+    const {data:sessionData}=await businessAuthClient.auth.getSession();
+    const token=sessionData.session?.access_token;
+    if(!token)throw new Error('Login session expire ho gaya. Dobara login karein.');
+    const endpoint=BUSINESS_SUPABASE_URL+'/functions/v1/subscription-payments';
+    const createResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token},body:JSON.stringify({action:'create_order',plan})});
+    const order=await createResponse.json();
+    if(!createResponse.ok)throw new Error(order.error||'Payment order create nahi hua.');
+    await loadRazorpayCheckout();
+    message.textContent='Razorpay secure checkout khul raha hai...';
+    const checkout=new window.Razorpay({
+      key:order.key_id,amount:order.amount,currency:order.currency,order_id:order.order_id,
+      name:order.business_name||'Spin & Win',description:monthly?'Monthly Subscription':'Yearly Subscription',
+      prefill:{email:sessionData.session.user.email||''},
+      theme:{color:'#FFD700'},
+      handler:async function(response){
+        try{
+          message.textContent='Payment verify ho raha hai. Kripya app band na karein...';
+          const verifyResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token},body:JSON.stringify({action:'verify_payment',razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature})});
+          const verified=await verifyResponse.json();
+          if(!verifyResponse.ok)throw new Error(verified.error||'Payment verify nahi hua.');
+          message.textContent='Payment successful! Subscription activate ho gaya.';
+          await checkBusinessAccess(sessionData.session.user);
+        }catch(error){message.textContent=(error.message||'Verification pending.')+' Agar amount debit hua hai to dobara payment na karein; support se contact karein.';}
+      },
+      modal:{ondismiss:function(){message.textContent='Payment cancel hua. Aap jab chahein dobara try kar sakte hain.';}}
+    });
+    checkout.on('payment.failed',function(){message.textContent='Payment complete nahi hua. Aap dobara try kar sakte hain.';});
+    checkout.open();
+  }catch(error){message.textContent=error.message||'Payment start nahi ho paya.';}
+  finally{button.disabled=false;}
+}
+businessAuthEl('subscribeMonthlyBtn').addEventListener('click',()=>startSaasSubscription('monthly'));
+businessAuthEl('subscribeYearlyBtn').addEventListener('click',()=>startSaasSubscription('yearly'));
 businessAuthEl('subscriptionLogoutBtn').addEventListener('click',async()=>{
   await businessAuthClient.auth.signOut();
   businessAuthEl('subscriptionRequiredGate').classList.add('hidden');

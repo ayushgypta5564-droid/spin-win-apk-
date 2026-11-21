@@ -414,7 +414,7 @@ function renderProducts(){
     const detail=document.createElement('div');detail.className='product-detail';
     const isFree=productTypeOf(item)==='free';const opts=Array.isArray(item.options)?item.options:[];
     const first=Array.isArray(item.sequence)&&item.sequence.length?item.sequence[0]:'Not set';
-    detail.textContent='Type: '+(isFree?'Free Products':'Extra Cash Discount')+'\\nSpin Board Options: '+opts.join(', ')+'\\n1st Tap: '+first;
+    detail.textContent='Type: '+(isFree?'Free Products':'Extra Cash Discount')+'\nSpin Board Options: '+opts.join(', ')+'\n1st Tap: '+first;
     const actions=document.createElement('div');actions.className='product-actions';
     const edit=document.createElement('button');edit.type='button';edit.className='product-edit-btn';edit.textContent='✏️';edit.title='Edit product';edit.setAttribute('aria-label','Edit '+(item.productName||key));
     edit.addEventListener('click',()=>openEditProduct(key,item));
@@ -425,7 +425,7 @@ function renderProducts(){
 }
 async function deleteBusinessProduct(key,item){
   const productName=item.productName||key.replace(/::(cash|free)$/,'');
-  if(!confirm('This product ('+productName+') will be deleted permanently.\\n\\nOK = Delete\\nCancel = Keep product'))return;
+  if(!confirm('This product ('+productName+') will be deleted permanently.\n\nOK = Delete\nCancel = Keep product'))return;
   if(!currentBusinessId){alert('Business login required.');return;}
   try{
     // Keep the products row in Supabase: spin_sessions may reference it.

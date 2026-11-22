@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Diwali Dhamaka Sale | Spin & Win</title>
+<title>Spin & Win | Customer Engagement Software for Small Businesses</title>
+<meta name="description" content="Spin & Win helps small businesses create branded promotional offer experiences, manage discounts and engage customers. Simple monthly and yearly software plans.">
+<meta name="robots" content="index,follow">
+<meta property="og:title" content="Spin & Win — Customer Engagement Software">
+<meta property="og:description" content="A simple promotional offer and customer engagement tool for local businesses.">
 <link rel="manifest" href="manifest.webmanifest">
 <meta name="theme-color" content="#1a0b2e">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -34,10 +38,120 @@ body.payment-open #menuPanel{z-index:141}
 body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
 #qrChoiceGate .form-card{max-width:360px}
 #qrChoiceGate button{width:100%;padding:13px;border-radius:10px;margin-top:10px;font:700 14px Poppins,Arial;cursor:pointer}
+
+/* Public information page for payment-provider review */
+html,body{overflow:hidden}
+#publicLanding{position:fixed;inset:0;z-index:300;display:block;overflow-y:auto;overscroll-behavior:contain;background:#f7f9fc;color:#172033;font-family:Poppins,Arial,sans-serif}
+#publicLanding[hidden]{display:none}
+.public-nav{position:sticky;top:0;z-index:3;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px max(18px,calc((100vw - 1120px)/2));background:#fff;border-bottom:1px solid #e7ebf2}
+.public-brand{font-size:20px;font-weight:800;letter-spacing:-.5px;color:#14213d}.public-brand span{color:#16845b}
+.public-nav a{color:#34425b;text-decoration:none;font-size:13px;font-weight:600;margin-left:14px}
+.public-nav .public-login{background:#14213d;color:#fff;padding:10px 15px;border-radius:9px}
+.public-wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+.public-hero{padding:64px 0 54px;background:linear-gradient(135deg,#eff6ff,#f5fbf7)}
+.public-hero-grid{display:grid;grid-template-columns:1.15fr .85fr;align-items:center;gap:38px}
+.public-eyebrow{display:inline-block;padding:7px 11px;border-radius:99px;background:#e0f2e9;color:#126b4a;font-size:12px;font-weight:700}
+.public-hero h1{font-size:clamp(32px,5vw,54px);line-height:1.12;letter-spacing:-1.8px;color:#14213d;margin:17px 0}
+.public-hero p{font-size:16px;line-height:1.8;color:#526078;max-width:640px}
+.public-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}
+.public-btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:10px;padding:13px 18px;background:#147b55;color:#fff;text-decoration:none;font:700 14px Poppins,Arial;cursor:pointer}
+.public-btn.secondary{background:#fff;color:#14213d;border:1px solid #d9e0ea}
+.public-preview{padding:25px;border-radius:22px;background:#14213d;box-shadow:0 18px 50px #14213d22;color:#fff}
+.public-preview-top{display:flex;gap:8px;margin-bottom:20px}.public-dot{width:9px;height:9px;border-radius:50%;background:#8aa0b8}
+.public-preview-card{padding:20px;border-radius:15px;background:#fff;color:#14213d}
+.public-preview-card strong{display:block;font-size:18px}.public-preview-card p{font-size:13px;margin:7px 0 15px;color:#65738a}
+.public-offer-pill{display:inline-block;margin:5px 5px 0 0;padding:8px 11px;border-radius:8px;background:#e6f5ed;color:#126b4a;font-size:11px;font-weight:700}
+.public-section{padding:55px 0}.public-section.alt{background:#fff}
+.public-section h2{font-size:clamp(24px,3.5vw,34px);color:#14213d;letter-spacing:-.7px;margin:0 0 12px}
+.public-lead{max-width:720px;color:#647188;line-height:1.75;margin:0 0 28px;font-size:14px}
+.public-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.public-card{padding:22px;border:1px solid #e4e9f0;border-radius:15px;background:#fff}
+.public-card h3{font-size:16px;color:#18243a;margin:0 0 8px}.public-card p{font-size:13px;color:#647188;line-height:1.75;margin:0}
+.public-number{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:#e6f5ed;color:#147b55;font-weight:800;margin-bottom:14px}
+.public-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,340px));gap:18px}
+.public-price{padding:25px;border-radius:16px;background:#fff;border:1px solid #dfe6ed}
+.public-price.featured{border:2px solid #147b55}
+.public-price h3{margin:0;color:#14213d;font-size:18px}.public-price .amount{font-size:34px;font-weight:800;color:#14213d;margin:10px 0}.public-price .amount small{font-size:13px;font-weight:500;color:#66748a}
+.public-price ul{padding-left:19px;color:#526078;font-size:13px;line-height:2}
+.public-note{padding:15px 17px;border-radius:12px;background:#fff8e6;color:#6e5521;font-size:12px;line-height:1.7;margin-top:20px}
+.public-faq{max-width:820px}.public-faq details{padding:16px 0;border-bottom:1px solid #e4e9f0}.public-faq summary{font-weight:700;color:#24324a;cursor:pointer}.public-faq p{font-size:13px;line-height:1.75;color:#647188}
+.public-footer{background:#14213d;color:#dce5f0;padding:35px 0}.public-footer a{color:#fff;text-decoration:none;margin-right:16px;font-size:12px}.public-footer p{font-size:12px;line-height:1.7;color:#b6c2d2}
+.public-legal{display:none;max-width:850px;margin:0 auto;padding:30px 22px 60px;background:#fff;color:#25324a;min-height:60vh}.public-legal.active{display:block}.public-legal h1{font-size:28px}.public-legal h2{font-size:17px;margin-top:24px}.public-legal p,.public-legal li{font-size:13px;line-height:1.8;color:#59677d}
+#publicHomeContent[hidden]{display:none}
+@media(max-width:760px){.public-nav{padding:12px 16px}.public-nav a:not(.public-login){display:none}.public-hero{padding:40px 0}.public-hero-grid{grid-template-columns:1fr;gap:25px}.public-preview{max-width:480px}.public-grid{grid-template-columns:1fr}.public-price-grid{grid-template-columns:1fr}.public-section{padding:40px 0}}
+
 </style>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+<section id="publicLanding" aria-label="Spin and Win public website">
+  <div id="publicHomeContent">
+    <nav class="public-nav">
+      <div class="public-brand">Spin <span>&</span> Win</div>
+      <div><a href="#publicHow">How it works</a><a href="#publicFeatures">Features</a><a href="#publicPlans">Plans</a><button class="public-btn public-login" id="publicLoginBtn" type="button">Business Login</button></div>
+    </nav>
+    <header class="public-hero">
+      <div class="public-wrap public-hero-grid">
+        <div>
+          <span class="public-eyebrow">CUSTOMER ENGAGEMENT SOFTWARE</span>
+          <h1>Make every customer interaction more engaging.</h1>
+          <p>Spin & Win is a promotional offer management tool that helps local businesses present their discounts and special offers through a simple, branded digital experience.</p>
+          <div class="public-actions"><button class="public-btn" id="publicGetStartedBtn" type="button">Get Started</button><a class="public-btn secondary" href="#publicHow">Explore the platform</a></div>
+        </div>
+        <div class="public-preview" aria-label="Illustrative promotional offer interface">
+          <div class="public-preview-top"><i class="public-dot"></i><i class="public-dot"></i><i class="public-dot"></i></div>
+          <div class="public-preview-card">
+            <strong>Your store. Your offers.</strong>
+            <p>A branded digital experience configured by the participating business.</p>
+            <span class="public-offer-pill">Store discounts</span><span class="public-offer-pill">Special offers</span><span class="public-offer-pill">Product promotions</span>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="public-section" id="publicHow"><div class="public-wrap">
+      <h2>How the platform works</h2><p class="public-lead">A straightforward workflow for a participating shop and its customers.</p>
+      <div class="public-grid">
+        <article class="public-card"><div class="public-number">1</div><h3>Set up your business</h3><p>The business creates an account, adds its products and configures the promotional offers it wants to present.</p></article>
+        <article class="public-card"><div class="public-number">2</div><h3>Share your branded experience</h3><p>Customers access the shop's digital offer page and provide the details requested by that shop.</p></article>
+        <article class="public-card"><div class="public-number">3</div><h3>Review and fulfil offers</h3><p>The shop reviews the offer details and handles the discount or product promotion directly with the customer.</p></article>
+      </div>
+    </div></section>
+    <section class="public-section alt" id="publicFeatures"><div class="public-wrap">
+      <h2>Tools for everyday business promotion</h2><p class="public-lead">Manage your promotional activity in one simple place, with your own business identity.</p>
+      <div class="public-grid">
+        <article class="public-card"><h3>Business branding</h3><p>Display your shop's own name and logo in the customer-facing experience.</p></article>
+        <article class="public-card"><h3>Product management</h3><p>Add and manage products and the promotional options associated with them.</p></article>
+        <article class="public-card"><h3>Offer management</h3><p>Configure discount and free-product promotions for your business.</p></article>
+        <article class="public-card"><h3>Customer details</h3><p>Collect the customer details needed by the shop to review and follow up on an offer.</p></article>
+        <article class="public-card"><h3>Mobile-friendly access</h3><p>Use the platform through a mobile-friendly web experience.</p></article>
+        <article class="public-card"><h3>Subscription access</h3><p>Choose a monthly or yearly software plan for your business account.</p></article>
+      </div>
+    </div></section>
+    <section class="public-section" id="publicPlans"><div class="public-wrap">
+      <h2>Simple software subscription plans</h2><p class="public-lead">Choose the subscription duration that suits your business.</p>
+      <div class="public-price-grid">
+        <article class="public-price"><h3>Monthly</h3><div class="amount">₹499 <small>/ month</small></div><ul><li>Access to the Spin & Win business platform</li><li>Product and promotional offer management</li><li>Business branding options</li></ul><button class="public-btn public-plan-btn" type="button">Choose Monthly</button></article>
+        <article class="public-price featured"><h3>Yearly</h3><div class="amount">₹4,999 <small>/ year</small></div><ul><li>Access to the Spin & Win business platform</li><li>Product and promotional offer management</li><li>Business branding options</li></ul><button class="public-btn public-plan-btn" type="button">Choose Yearly</button></article>
+      </div>
+      <div class="public-note">Subscription fees are for use of the Spin & Win software by business accounts. Any customer purchase or advance payment required by a participating shop is paid directly to that shop and is handled by the shop, not collected as a Spin & Win software subscription.</div>
+    </div></section>
+    <section class="public-section alt"><div class="public-wrap public-faq">
+      <h2>Frequently asked questions</h2>
+      <details><summary>Who is Spin & Win designed for?</summary><p>It is designed for small and local businesses such as furniture shops, salons, cafés and electronics retailers that want to manage promotional offers and customer engagement.</p></details>
+      <details><summary>Does Spin & Win sell products to customers?</summary><p>No. The participating business manages its own products, prices, offers and customer fulfilment. Spin & Win provides the software platform.</p></details>
+      <details><summary>Who receives customer payments?</summary><p>Any payment for a shop's product or shop-specific advance is handled directly by that participating shop. Spin & Win's Razorpay checkout is intended for business software subscriptions only.</p></details>
+      <details><summary>Is the subscription automatically renewed?</summary><p>No automatic renewal is represented here. A business can purchase the applicable plan again before or after its current access expires.</p></details>
+    </div></section>
+    <footer class="public-footer"><div class="public-wrap">
+      <strong>Spin & Win</strong><p>Promotional offer management and customer engagement software for small businesses.</p>
+      <a href="#publicTerms" class="public-legal-link" data-legal="terms">Terms of Service</a><a href="#publicPrivacy" class="public-legal-link" data-legal="privacy">Privacy Policy</a><a href="#publicRefund" class="public-legal-link" data-legal="refund">Refund Policy</a>
+      <p>Software subscription charges are separate from payments, if any, made directly to a participating shop.</p>
+    </div></footer>
+  </div>
+  <article class="public-legal" id="publicTerms"><button class="public-btn public-back-home" type="button">Back to website</button><h1>Terms of Service</h1><p>These terms apply to business accounts using the Spin & Win software platform.</p><h2>Platform use</h2><p>Spin & Win provides software tools for businesses to manage products, promotional discounts, customer details and branded offer experiences. The participating business is responsible for the accuracy of its product information, prices, promotional terms and fulfilment of offers.</p><h2>Business responsibilities</h2><p>Businesses must use the platform lawfully, provide accurate information, obtain appropriate permissions for customer data, and honour the offers they publish. Businesses remain responsible for their customer relationships and sales.</p><h2>Subscriptions and access</h2><p>Business software plans are ₹499 per month or ₹4,999 per year. Access is provided for the purchased subscription period after successful payment. The business is responsible for renewing access when required. The platform may restrict access after subscription expiry.</p><h2>Customer payments</h2><p>Spin & Win software subscription payments are separate from any product payment or shop-specific advance. Such customer payments, where required by a participating business, are paid directly to and handled by that business.</p><h2>Changes and support</h2><p>Features may be updated to improve the service. Businesses should use the account and support channel made available to them to report issues.</p></article>
+  <article class="public-legal" id="publicPrivacy"><button class="public-btn public-back-home" type="button">Back to website</button><h1>Privacy Policy</h1><p>Spin & Win processes information needed to provide business account and promotional offer management features.</p><h2>Information handled</h2><p>Business account information may include business name, account email, products, offer settings and subscription status. Customer details may be entered by a participating business as part of its offer workflow.</p><h2>How information is used</h2><p>Information is used to operate the platform, provide account access, manage subscriptions, support business workflows, maintain security and troubleshoot service issues.</p><h2>Payments</h2><p>Business subscription payments are processed through the payment provider. Spin & Win does not ask customers to send their shop purchase payments to the software provider. Payments for a participating shop's products or shop-specific advances are handled by that shop.</p><h2>Sharing and security</h2><p>Information may be processed by service providers that help operate authentication, hosting, database and payment functions. Reasonable technical safeguards are used, but no online service can guarantee absolute security.</p><h2>Data requests</h2><p>Business account holders can use their account or the support channel made available to them to request help with their information. Businesses are responsible for having an appropriate basis to collect and use customer information.</p></article>
+  <article class="public-legal" id="publicRefund"><button class="public-btn public-back-home" type="button">Back to website</button><h1>Refund Policy</h1><p>This policy applies to Spin & Win business software subscription payments. It does not govern purchases made directly from participating shops.</p><h2>Subscription purchases</h2><p>Please review the selected plan and subscription duration before completing payment. Once subscription access has been activated, subscription fees are generally not refundable except where required by applicable law or where a duplicate or erroneous charge is confirmed.</p><h2>Failed or duplicate payments</h2><p>If an amount is debited but the subscription is not activated, or if a duplicate charge appears, contact support through the account channel and provide the payment reference. Verified duplicate or failed transactions will be reviewed for resolution.</p><h2>Shop transactions</h2><p>Any customer purchase, advance or other payment made directly to a participating shop is handled by that shop. Customers should contact the shop for its product return, cancellation or refund terms.</p></article>
+</section>
 
 <!-- Business login gate: added without changing the existing Spin & Win customer/payment flow -->
 <div class="overlay" id="businessLoginGate" style="z-index:100">
@@ -51,6 +165,7 @@ body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
     <label for="businessPassword">Password</label>
     <input id="businessPassword" type="password" autocomplete="current-password" placeholder="Password (8+ characters)" minlength="8" required>
     <button type="submit" id="businessLoginBtn">Login</button>
+    <button type="button" id="businessBackToWebsiteBtn" style="margin-top:8px;background:#ffffff20;color:#fff;border:1px solid #ffffff55" onclick="appEntryRequested=false;showBusinessLogin()">Back to website</button>
     <button type="button" id="businessSignupBtn">Create Account</button>
     <p class="hint" id="businessAuthMessage" role="status"></p>
   </form>
@@ -89,16 +204,16 @@ body.payment-open #menuPanel #uploadQrMenuBtn{display:block}
 <div class="overlay hidden" id="overlay"><form class="form-card" id="leadForm"><img class="logo form-logo business-logo" alt="Business logo"><h2>🎁 Unlock Your Discount</h2><label for="name">Your Name</label><input id="name" name="name" required autocomplete="name" maxlength="80" placeholder="Enter your name"><label for="phone">Phone Number</label><input id="phone" name="phone" type="tel" required inputmode="numeric" autocomplete="tel-national" pattern="[0-9]{10}" minlength="10" maxlength="10" title="Enter exactly 10 digits" placeholder="10-digit mobile number"><label for="product">Product Name</label><input id="product" name="product" list="productSuggestions" required maxlength="100" placeholder="Select/type product name"><datalist id="productSuggestions"></datalist><label for="price">Product Price (₹)</label><input id="price" name="price" type="number" required min="1" max="100000000" step="0.01" placeholder="Enter product price"><button class="btn" type="submit">Unlock Offers 🎁</button><p class="hint">Game opens directly. One entry per product and phone every hour on this browser.</p></form></div>
 
 <script>
-/* Business authentication + Raj Laxmi Enterprises permanent free access.
-   Other businesses require an active subscription; Razorpay is intentionally not integrated yet. */
+/* Business authentication + subscription access. Public landing page is visible before login. */
 const BUSINESS_SUPABASE_URL='https://weoaltycrfcnqwncpgvf.supabase.co';
 const BUSINESS_SUPABASE_KEY='sb_publishable_0A225rp9Cwf596PnaEWVZA_zFvRXR2m';
 const businessAuthClient=window.supabase.createClient(BUSINESS_SUPABASE_URL,BUSINESS_SUPABASE_KEY);
 let currentBusinessId=null;
 const businessAuthEl=id=>document.getElementById(id);
 function businessAuthMessage(message){businessAuthEl('businessAuthMessage').textContent=message;}
-function showBusinessLogin(){if(typeof applyBusinessLogo==='function')applyBusinessLogo(null);businessAuthEl('businessLoginGate').classList.remove('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('overlay').classList.add('hidden');businessAuthEl('game').classList.remove('active');}
-function enterExistingApp(){businessAuthEl('businessLoginGate').classList.add('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('offerChoicePage').classList.add('hidden');businessAuthEl('overlay').classList.remove('hidden');document.body.classList.add('customer-open');$('backBtn').style.display='flex';$('menuBtn').style.display='flex';}
+let appEntryRequested=false;
+function showBusinessLogin(){if(typeof applyBusinessLogo==='function')applyBusinessLogo(null);businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('overlay').classList.add('hidden');businessAuthEl('game').classList.remove('active');if(appEntryRequested){businessAuthEl('publicLanding').hidden=true;businessAuthEl('businessLoginGate').classList.remove('hidden');}else{businessAuthEl('businessLoginGate').classList.add('hidden');businessAuthEl('publicLanding').hidden=false;showPublicHome();}}
+function enterExistingApp(){businessAuthEl('publicLanding').hidden=true;businessAuthEl('businessLoginGate').classList.add('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('offerChoicePage').classList.add('hidden');businessAuthEl('overlay').classList.remove('hidden');document.body.classList.add('customer-open');$('backBtn').style.display='flex';$('menuBtn').style.display='flex';}
 async function checkBusinessAccess(user){
   businessAuthMessage('Checking business account...');
   const {data:business,error:businessError}=await businessAuthClient.from('businesses').select('id,business_name').eq('owner_id',user.id).maybeSingle();
@@ -126,6 +241,13 @@ async function checkBusinessAccess(user){
   businessAuthEl('subscriptionRequiredGate').classList.remove('hidden');
   businessAuthEl('subscriptionMessage').textContent='Apne business ke liye plan select karein. Payment Razorpay ke secure checkout se hoga.';
 }
+function showPublicHome(){document.querySelectorAll('.public-legal').forEach(el=>el.classList.remove('active'));const home=document.getElementById('publicHomeContent');if(home)home.hidden=false;}
+function openBusinessLogin(){appEntryRequested=true;businessAuthEl('publicLanding').hidden=true;businessAuthEl('businessLoginGate').classList.remove('hidden');businessAuthEl('businessEmail').focus();}
+businessAuthEl('publicLoginBtn').addEventListener('click',openBusinessLogin);
+businessAuthEl('publicGetStartedBtn').addEventListener('click',openBusinessLogin);
+document.querySelectorAll('.public-plan-btn').forEach(button=>button.addEventListener('click',openBusinessLogin));
+document.querySelectorAll('.public-legal-link').forEach(link=>link.addEventListener('click',event=>{event.preventDefault();const kind=link.dataset.legal;document.getElementById('publicHomeContent').hidden=true;document.querySelectorAll('.public-legal').forEach(el=>el.classList.toggle('active',el.id==='public'+kind[0].toUpperCase()+kind.slice(1)));document.getElementById('publicLanding').scrollTop=0;}));
+document.querySelectorAll('.public-back-home').forEach(button=>button.addEventListener('click',()=>{showPublicHome();document.getElementById('publicLanding').scrollTop=0;}));
 businessAuthEl('businessLoginForm').addEventListener('submit',async event=>{
   event.preventDefault();
   const email=businessAuthEl('businessEmail').value.trim();

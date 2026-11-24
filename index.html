@@ -310,7 +310,7 @@ async function startSaasSubscription(plan){
       handler:async function(response){
         try{
           message.textContent='Payment verify ho raha hai. Kripya app band na karein...';
-          const verifyResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token},body:JSON.stringify({action:'verify_payment',razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature})});
+          const verifyResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token,'x-payment-mode':subscriptionPaymentMode},body:JSON.stringify({action:'verify_payment',razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature})});
           const verified=await verifyResponse.json();
           if(!verifyResponse.ok)throw new Error(verified.error||'Payment verify nahi hua.');
           message.textContent='Payment successful! Subscription activate ho gaya.';

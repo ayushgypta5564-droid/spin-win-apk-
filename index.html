@@ -286,6 +286,7 @@ async function loadRazorpayCheckout(){
   });
 }
 async function startSaasSubscription(plan){
+  const subscriptionPaymentMode=new URLSearchParams(window.location.search).get('payment_mode')==='test'?'test':'live';
   const message=businessAuthEl('subscriptionPaymentMessage');
   const monthly=plan==='monthly';
   const button=businessAuthEl(monthly?'subscribeMonthlyBtn':'subscribeYearlyBtn');
@@ -296,7 +297,7 @@ async function startSaasSubscription(plan){
     const token=sessionData.session?.access_token;
     if(!token)throw new Error('Login session expire ho gaya. Dobara login karein.');
     const endpoint=BUSINESS_SUPABASE_URL+'/functions/v1/subscription-payments';
-    const createResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token},body:JSON.stringify({action:'create_order',plan})});
+    const createResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token,'x-payment-mode':subscriptionPaymentMode},body:JSON.stringify({action:'create_order',plan})});
     const order=await createResponse.json();
     if(!createResponse.ok)throw new Error(order.error||'Payment order create nahi hua.');
     await loadRazorpayCheckout();

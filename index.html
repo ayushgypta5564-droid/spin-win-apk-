@@ -228,8 +228,8 @@ async function checkBusinessAccess(user){
   }
   currentBusinessId=businessRow.id;
   if(typeof loadBusinessCloudData==='function') await loadBusinessCloudData(currentBusinessId);
-  const normalized=(businessRow.business_name||'').trim().toLowerCase().replace(/\s+/g,' ');
-  if(normalized==='raj laxmi enterprises'){
+  const ownerEmail=String(user.email||'').trim().toLowerCase();
+  if(ownerEmail==='anshukumar94074@gmail.com'){
     enterExistingApp();
     return;
   }

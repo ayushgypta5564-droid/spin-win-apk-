@@ -229,8 +229,8 @@ async function checkBusinessAccess(user){
     businessRow=created;
   }
   currentBusinessId=businessRow.id;
-  if(typeof loadBusinessCloudData==='function') await loadBusinessCloudData(currentBusinessId);
   const ownerEmail=String(user.email||'').trim().toLowerCase();
+  if(typeof loadBusinessCloudData==='function') await loadBusinessCloudData(currentBusinessId,ownerEmail==='anshukumar94074@gmail.com');
   if(ownerEmail==='anshukumar94074@gmail.com'){
     enterExistingApp();
     return;
@@ -520,6 +520,8 @@ const productConfig = {
 "partical king 3": { options: [2000, 3500, 4500, 5500, 5700, 6500, 7500, 8500, 9500, 9600, 10000], sequence: [5700, 3500, 9600] },
 "dressing": { options: [300, 500, 800, 1000, 1400, 1700, 2100, 2500, 2700, 3000], sequence: [800, 1000, 3000] },
 };
+// Keep the legacy starter catalog only for the original owner's account.
+const BUILT_IN_PRODUCT_CONFIG = JSON.parse(JSON.stringify(productConfig));
 const $=id=>document.getElementById(id);const OWNER='918084420678',COOLDOWN=3600000;
 const money=n=>'₹'+Number(n).toLocaleString('en-IN',{maximumFractionDigits:2});
 const CUSTOM_KEY='spin_custom_products_v1';let customProducts={};let addProductType='cash';let pageStack=[];let adminReturnState=null;
@@ -530,14 +532,16 @@ function productKeyFor(name,type){const normalized=normalizeProductName(name),ex
 const cloudProductIds={};
 const cloudProductKeys=new Set();
 function loadCustomProducts(){customProducts={};}
-async function loadBusinessCloudData(businessId){
+async function loadBusinessCloudData(businessId,includeBuiltInProducts=false){
   currentBusinessId=businessId;
   const {data:businessSettings,error:settingsError}=await businessAuthClient.from('businesses').select('deleted_product_keys').eq('id',businessId).single();
   if(settingsError)throw settingsError;
   const deletedProductKeys=Array.isArray(businessSettings.deleted_product_keys)?businessSettings.deleted_product_keys:[];
   const {data,error}=await businessAuthClient.from('products').select('id,product_name,product_price,wheel_options,spin_results,product_type').eq('business_id',businessId);
   if(error)throw error;
-  cloudProductKeys.forEach(k=>delete productConfig[k]);
+  // Never let one account inherit the hard-coded starter catalog or another account's in-memory products.
+  Object.keys(productConfig).forEach(k=>delete productConfig[k]);
+  if(includeBuiltInProducts)Object.assign(productConfig,JSON.parse(JSON.stringify(BUILT_IN_PRODUCT_CONFIG)));
   cloudProductKeys.clear();
   Object.keys(cloudProductIds).forEach(k=>delete cloudProductIds[k]);
   Object.keys(customProducts).forEach(k=>delete customProducts[k]);

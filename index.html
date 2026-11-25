@@ -214,7 +214,9 @@ function businessAuthMessage(message){businessAuthEl('businessAuthMessage').text
 let appEntryRequested=false;
 function showBusinessLogin(){if(typeof applyBusinessLogo==='function')applyBusinessLogo(null);businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('overlay').classList.add('hidden');businessAuthEl('game').classList.remove('active');if(appEntryRequested){businessAuthEl('publicLanding').hidden=true;businessAuthEl('businessLoginGate').classList.remove('hidden');}else{businessAuthEl('businessLoginGate').classList.add('hidden');businessAuthEl('publicLanding').hidden=false;showPublicHome();}}
 function enterExistingApp(){businessAuthEl('publicLanding').hidden=true;businessAuthEl('businessLoginGate').classList.add('hidden');businessAuthEl('subscriptionRequiredGate').classList.add('hidden');businessAuthEl('paymentGate').classList.add('hidden');businessAuthEl('offerChoicePage').classList.add('hidden');businessAuthEl('overlay').classList.remove('hidden');document.body.classList.add('customer-open');$('backBtn').style.display='flex';$('menuBtn').style.display='flex';}
+let subscriptionExpiryTimer=null;
 async function checkBusinessAccess(user){
+  if(subscriptionExpiryTimer){clearTimeout(subscriptionExpiryTimer);subscriptionExpiryTimer=null;}
   businessAuthMessage('Checking business account...');
   const {data:business,error:businessError}=await businessAuthClient.from('businesses').select('id,business_name').eq('owner_id',user.id).maybeSingle();
   if(businessError)throw businessError;
@@ -235,8 +237,21 @@ async function checkBusinessAccess(user){
   }
   const {data:subs,error:subError}=await businessAuthClient.from('subscriptions').select('status,expires_at').eq('business_id',businessRow.id).eq('status','active').order('expires_at',{ascending:false}).limit(1);
   if(subError)throw subError;
-  const active=(subs||[]).some(item=>item.expires_at && new Date(item.expires_at).getTime()>Date.now());
-  if(active){enterExistingApp();return;}
+  const activeSubscription=(subs||[]).filter(item=>item.expires_at && new Date(item.expires_at).getTime()>Date.now()).sort((a,b)=>new Date(b.expires_at)-new Date(a.expires_at))[0];
+  if(activeSubscription){
+    const remaining=Math.max(0,new Date(activeSubscription.expires_at).getTime()-Date.now());
+    subscriptionExpiryTimer=setTimeout(async()=>{
+      try{
+        const {data:sessionData}=await businessAuthClient.auth.getSession();
+        if(sessionData.session?.user)await checkBusinessAccess(sessionData.session.user);
+      }catch(error){
+        businessAuthEl('subscriptionRequiredGate').classList.remove('hidden');
+        businessAuthEl('overlay').classList.add('hidden');
+        businessAuthEl('subscriptionMessage').textContent='Subscription status check nahi ho paya. Internet check karke dobara login karein.';
+      }
+    },Math.min(remaining+1000,2147480000));
+    enterExistingApp();return;
+  }
   businessAuthEl('businessLoginGate').classList.add('hidden');
   businessAuthEl('subscriptionRequiredGate').classList.remove('hidden');
   businessAuthEl('subscriptionMessage').textContent='Apne business ke liye plan select karein. Payment Razorpay ke secure checkout se hoga.';

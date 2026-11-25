@@ -174,8 +174,9 @@ html,body{overflow:hidden}
   <div class="form-card">
     <h2>Choose Subscription</h2>
     <p id="subscriptionMessage">Choose a plan to activate your business account.</p>
-    <button type="button" id="subscribeMonthlyBtn">Monthly Subscription · ₹499</button>
-    <button type="button" id="subscribeYearlyBtn">Yearly Subscription · ₹4,999</button>
+    <button type="button" id="subscribeMonthlyBtn">Monthly AutoPay · ₹499 first month, then ₹999/month</button>
+    <button type="button" id="subscribeYearlyBtn">Yearly AutoPay · ₹9,999/year</button>
+    <p class="hint">Monthly: ₹499 introductory payment today, then ₹999 automatically every month from the next billing date. Yearly: ₹9,999 today and automatically every year. AutoPay mandate approval is required.</p>
     <p class="hint" id="subscriptionPaymentMessage" role="status"></p>
     <button type="button" id="subscriptionLogoutBtn">Logout</button>
   </div>
@@ -307,36 +308,44 @@ async function startSaasSubscription(plan){
   const button=businessAuthEl(monthly?'subscribeMonthlyBtn':'subscribeYearlyBtn');
   try{
     if(!currentBusinessId)throw new Error('Business account load nahi hua. Dobara login karein.');
-    button.disabled=true;message.textContent='Secure payment order banaya ja raha hai...';
+    button.disabled=true;message.textContent='Razorpay AutoPay mandate create ho raha hai...';
     const {data:sessionData}=await businessAuthClient.auth.getSession();
     const token=sessionData.session?.access_token;
     if(!token)throw new Error('Login session expire ho gaya. Dobara login karein.');
     const endpoint=BUSINESS_SUPABASE_URL+'/functions/v1/subscription-payments';
-    const createResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token,'x-payment-mode':subscriptionPaymentMode},body:JSON.stringify({action:'create_order',plan})});
-    const order=await createResponse.json();
-    if(!createResponse.ok)throw new Error(order.error||'Payment order create nahi hua.');
+    const headers={'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token,'x-payment-mode':subscriptionPaymentMode};
+    const createResponse=await fetch(endpoint,{method:'POST',headers,body:JSON.stringify({action:'create_autopay_subscription',plan})});
+    const subscription=await createResponse.json();
+    if(!createResponse.ok)throw new Error(subscription.error||'AutoPay Subscription create nahi hui.');
     await loadRazorpayCheckout();
-    message.textContent='Razorpay secure checkout khul raha hai...';
+    message.textContent='Razorpay AutoPay authorization khul raha hai...';
     const checkout=new window.Razorpay({
-      key:order.key_id,amount:order.amount,currency:order.currency,order_id:order.order_id,
-      name:order.business_name||'Spin & Win',description:monthly?'Monthly Subscription':'Yearly Subscription',
+      key:subscription.key_id,
+      subscription_id:subscription.subscription_id,
+      name:subscription.business_name||'Spin & Win',
+      description:subscription.description,
       prefill:{email:sessionData.session.user.email||''},
       theme:{color:'#FFD700'},
       handler:async function(response){
         try{
-          message.textContent='Payment verify ho raha hai. Kripya app band na karein...';
-          const verifyResponse=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token,'x-payment-mode':subscriptionPaymentMode},body:JSON.stringify({action:'verify_payment',razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature})});
+          message.textContent='AutoPay Mandate aur first payment verify ho raha hai...';
+          const verifyResponse=await fetch(endpoint,{method:'POST',headers,body:JSON.stringify({
+            action:'verify_autopay_subscription',
+            razorpay_subscription_id:response.razorpay_subscription_id,
+            razorpay_payment_id:response.razorpay_payment_id,
+            razorpay_signature:response.razorpay_signature
+          })});
           const verified=await verifyResponse.json();
-          if(!verifyResponse.ok)throw new Error(verified.error||'Payment verify nahi hua.');
-          message.textContent='Payment successful! Subscription activate ho gaya.';
+          if(!verifyResponse.ok)throw new Error(verified.error||'AutoPay verification complete nahi hui.');
+          message.textContent='AutoPay enabled! Subscription active ho gayi.';
           await checkBusinessAccess(sessionData.session.user);
         }catch(error){message.textContent=(error.message||'Verification pending.')+' Agar amount debit hua hai to dobara payment na karein; support se contact karein.';}
       },
-      modal:{ondismiss:function(){message.textContent='Payment cancel hua. Aap jab chahein dobara try kar sakte hain.';}}
+      modal:{ondismiss:function(){message.textContent='AutoPay setup cancel hua. Mandate authorize kiye bina subscription activate nahi hogi.';}}
     });
-    checkout.on('payment.failed',function(){message.textContent='Payment complete nahi hua. Aap dobara try kar sakte hain.';});
+    checkout.on('payment.failed',function(){message.textContent='AutoPay authorization/payment complete nahi hua. Aap dobara try kar sakte hain.';});
     checkout.open();
-  }catch(error){message.textContent=error.message||'Payment start nahi ho paya.';}
+  }catch(error){message.textContent=error.message||'AutoPay start nahi ho paya.';}
   finally{button.disabled=false;}
 }
 businessAuthEl('subscribeMonthlyBtn').addEventListener('click',()=>startSaasSubscription('monthly'));

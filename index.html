@@ -189,7 +189,8 @@ html,body{overflow:hidden}
 <div class="menu-panel" id="menuPanel"><button type="button" id="uploadQrMenuBtn">📷 Upload QR</button><button type="button" id="settingsMenuBtn">⚙️ Settings</button><button type="button" id="addProductMenuBtn">＋ Add Product</button><button type="button" id="businessLogoutBtn">🚪 Logout</button></div>
 <div class="overlay hidden admin-layer" id="adminChoicePage"><section class="form-card admin-card"><h2 class="page-title">Add Product</h2><button class="choice-btn" id="cashTypeBtn" type="button">💵 Extra Cash Discount</button><button class="choice-btn" id="freeTypeBtn" type="button">🎁 Free Products</button></section></div>
 <div class="overlay hidden admin-layer" id="addProductPage"><form class="form-card admin-card" id="addProductForm"><h2 class="page-title" id="addProductTitle">Add Product</h2><label for="newProductName">Add Product Name</label><input id="newProductName" required maxlength="100" placeholder="Enter product name"><label for="newProductOptions">Spin Board Options</label><textarea id="newProductOptions" required placeholder="Example: 500, 800, 1000, 1500"></textarea><p class="field-hint" id="optionsHint">Options ko comma se alag karein.</p><label for="newProductFirst">First Tap Result</label><input id="newProductFirst" required placeholder="Enter first tap result"><p class="field-hint" id="firstHint">First tap result options mein se hi hona chahiye.</p><button class="btn" type="submit">Add Product</button></form></div>
-<div class="overlay hidden admin-layer" id="settingsPage"><section class="form-card admin-card"><h2 class="page-title">Settings ⚙️</h2><p class="admin-list" id="settingsSummary"></p><button class="choice-btn" id="setBusinessLogoBtn" type="button">🖼️ Set Business Logo</button><button class="choice-btn" id="viewProductsBtn" type="button">📦 Products</button><h3>Custom Products</h3><div class="admin-list" id="customProductList">No custom products added yet.</div></section></div>
+<div class="overlay hidden admin-layer" id="settingsPage"><section class="form-card admin-card"><h2 class="page-title">Settings ⚙️</h2><p class="admin-list" id="settingsSummary"></p><button class="choice-btn" id="setBusinessLogoBtn" type="button">🖼️ Set Business Logo</button><button class="choice-btn" id="viewProductsBtn" type="button">📦 Products</button><button class="choice-btn" id="viewSubscriptionBtn" type="button">📅 Subscription</button><h3>Custom Products</h3><div class="admin-list" id="customProductList">No custom products added yet.</div></section></div>
+<div class="overlay hidden admin-layer" id="subscriptionPage"><section class="form-card admin-card"><h2 class="page-title">Subscription Details</h2><div id="subscriptionDetails" class="admin-list" aria-live="polite">Loading subscription details...</div><button class="choice-btn" id="refreshSubscriptionBtn" type="button">↻ Refresh</button></section></div>
 <div class="overlay hidden admin-layer" id="productsPage"><section class="form-card admin-card"><h2 class="page-title">All Products 📦</h2><div class="products-toolbar"><button type="button" id="allProductsFilter" class="active">All</button><button type="button" id="cashProductsFilter">Extra Cash</button><button type="button" id="freeProductsFilter">Free Products</button></div><p class="products-count" id="productsCount"></p><div id="allProductsList" class="admin-list"></div></section></div>
 
 <div class="overlay hidden admin-layer" id="editProductPage" style="z-index:90"><form class="form-card admin-card" id="editProductForm"><h2 class="page-title">Edit Product ✏️</h2><label for="editProductName">Product Name</label><input id="editProductName" required maxlength="100"><label for="editProductOptions">Spin Board Options</label><textarea id="editProductOptions" required></textarea><p class="field-hint">Options ko comma se alag karein.</p><label for="editTap1">First Tap Result</label><input id="editTap1" required><label for="editTap2">Second Tap Result</label><input id="editTap2" required><label for="editTap3">Third Tap Result</label><input id="editTap3" required><button class="btn" type="submit">Save Changes</button><button class="choice-btn" id="cancelEditProduct" type="button">Cancel</button></form></div>
@@ -597,7 +598,7 @@ async function saveCustomProducts(){
 function applyBusinessLogo(url){document.querySelectorAll('img.business-logo').forEach(img=>{if(url){img.src=url;img.style.display='block';}else{img.removeAttribute('src');img.style.display='none';}});}
 function refreshProductSuggestions(){const list=$('productSuggestions');list.replaceChildren();const names=[...new Set(Object.entries(productConfig).map(([k,v])=>normalizeProductName(v.productName||k.replace(/::(cash|free)$/,''))))].sort();names.forEach(name=>{const o=document.createElement('option');o.value=name;list.appendChild(o);});}
 function showPage(id){
-  const ids=['adminChoicePage','addProductPage','settingsPage','productsPage'];
+  const ids=['adminChoicePage','addProductPage','settingsPage','productsPage','subscriptionPage'];
   if(!adminReturnState){adminReturnState={paymentHidden:$('paymentGate').classList.contains('hidden'),leadHidden:$('overlay').classList.contains('hidden'),gameActive:$('game').classList.contains('active')};}
   $('paymentGate').classList.add('hidden');$('overlay').classList.add('hidden');$('game').classList.remove('active');
   ids.forEach(x=>$(x).classList.toggle('hidden',x!==id));
@@ -794,6 +795,7 @@ $('backBtn').addEventListener('click',()=>{
     $('addProductPage').classList.add('hidden');
     $('settingsPage').classList.add('hidden');
     $('productsPage').classList.add('hidden');
+    $('subscriptionPage').classList.add('hidden');
     $('editProductPage').classList.add('hidden');
     $('paymentGate').classList.add('hidden');
     $('offerChoicePage').classList.add('hidden');
@@ -835,7 +837,7 @@ $('businessLogoutBtn').addEventListener('click',async()=>{
     $('paymentGate').classList.add('hidden');
     $('overlay').classList.add('hidden');
     $('game').classList.remove('active');
-    ['adminChoicePage','addProductPage','settingsPage','productsPage','editProductPage','qrChoiceGate'].forEach(id=>{const el=$(id);if(el)el.classList.add('hidden');});
+    ['adminChoicePage','addProductPage','settingsPage','productsPage','subscriptionPage','editProductPage','qrChoiceGate'].forEach(id=>{const el=$(id);if(el)el.classList.add('hidden');});
     $('backBtn').style.display='none';
     $('menuBtn').style.display='none';
     pageStack=[];adminReturnState=null;
@@ -880,6 +882,38 @@ $('qrCameraInput').addEventListener('change',e=>{setPaymentQr(e.target.files&&e.
 
 $('addProductMenuBtn').addEventListener('click',()=>showPage('adminChoicePage'));
 $('settingsMenuBtn').addEventListener('click',()=>{renderSettings();showPage('settingsPage');});
+$('viewSubscriptionBtn').addEventListener('click',async()=>{showPage('subscriptionPage');await renderSubscriptionDetails();});
+$('refreshSubscriptionBtn').addEventListener('click',renderSubscriptionDetails);
+async function renderSubscriptionDetails(){
+  const box=$('subscriptionDetails');
+  box.textContent='Loading subscription details...';
+  try{
+    if(!currentBusinessId)throw new Error('Business account is not ready. Please login again.');
+    const {data:sessionData}=await businessAuthClient.auth.getSession();
+    const email=String(sessionData.session?.user?.email||'').trim().toLowerCase();
+    if(email==='anshukumar94074@gmail.com'){
+      box.textContent='Plan: Lifetime Free Access\\nStatus: Active\\nStart Date: Permanent access\\nExpiry Date: No expiry';
+      return;
+    }
+    const {data:rows,error}=await businessAuthClient.from('subscriptions')
+      .select('plan,amount,status,starts_at,expires_at,created_at')
+      .eq('business_id',currentBusinessId)
+      .order('created_at',{ascending:false}).limit(10);
+    if(error)throw error;
+    const latest=(rows||[]).sort((a,b)=>new Date(b.starts_at||b.created_at||0)-new Date(a.starts_at||a.created_at||0))[0];
+    if(!latest){
+      box.textContent='No subscription record found. Please contact support.';
+      return;
+    }
+    const fmt=value=>value?new Date(value).toLocaleString('en-IN',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}):'Not available';
+    const expired=latest.expires_at?new Date(latest.expires_at).getTime()<=Date.now():latest.status!=='active';
+    const status=expired?'Expired':(latest.status==='active'?'Active':String(latest.status||'Unknown').toUpperCase());
+    const plan=String(latest.plan||'').toLowerCase()==='yearly'?'Yearly':String(latest.plan||'').toLowerCase()==='monthly'?'Monthly':String(latest.plan||'Not available');
+    box.textContent='Plan: '+plan+'\\nAmount: ₹'+Number(latest.amount||0).toLocaleString('en-IN')+'\\nStatus: '+status+'\\nStart Date: '+fmt(latest.starts_at||latest.created_at)+'\\nExpiry Date: '+fmt(latest.expires_at);
+  }catch(error){
+    box.textContent='Subscription details load nahi ho paye. Internet check karke Refresh karein.\\n'+(error.message||error);
+  }
+}
 $('setBusinessLogoBtn').addEventListener('click',()=>{$('menuPanel').classList.remove('open');$('logoChoiceGate').classList.remove('hidden');});
 $('chooseLogoGallery').addEventListener('click',()=>{$('logoChoiceGate').classList.add('hidden');$('logoGalleryInput').click();});
 $('chooseLogoCamera').addEventListener('click',()=>{$('logoChoiceGate').classList.add('hidden');$('logoCameraInput').click();});

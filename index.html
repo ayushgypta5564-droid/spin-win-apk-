@@ -178,6 +178,13 @@ html,body{overflow:hidden}
     <button type="button" id="subscribeYearlyBtn">Yearly AutoPay · ₹9,999/year</button>
     <p class="hint">Monthly: ₹499 introductory payment today, then ₹999 automatically every month from the next billing date. Yearly: ₹9,999 today and automatically every year. AutoPay mandate approval is required.</p>
     <p class="hint" id="subscriptionPaymentMessage" role="status"></p>
+    <div style="margin-top:14px;padding-top:12px;border-top:1px solid #ffffff33;text-align:left">
+      <p class="hint" style="margin:0 0 8px">Payment successful but access did not activate? Verify that same payment here. Do not pay again.</p>
+      <label for="recoveryPaymentId">Razorpay Payment ID</label>
+      <input id="recoveryPaymentId" type="text" autocomplete="off" placeholder="pay_..." style="margin-top:5px">
+      <button type="button" id="recoverPreviousPaymentBtn" style="margin-top:9px">Verify Previous Payment & Activate</button>
+      <p class="hint" id="recoveryPaymentMessage" role="status"></p>
+    </div>
     <button type="button" id="subscriptionLogoutBtn">Logout</button>
   </div>
 </div>
@@ -247,7 +254,7 @@ async function checkBusinessAccess(user){
     subscriptionExpiryTimer=setTimeout(async()=>{
       try{
         const {data:sessionData}=await businessAuthClient.auth.getSession();
-        if(sessionData.session?.user)await checkBusinessAccess(sessionData.session.user);
+        if(sessionData.session?.user)await checkBusinessAccess(verifySession.user);
       }catch(error){
         businessAuthEl('subscriptionRequiredGate').classList.remove('hidden');
         businessAuthEl('overlay').classList.add('hidden');
@@ -304,6 +311,18 @@ async function loadRazorpayCheckout(){
     document.head.appendChild(script);
   });
 }
+async function getFreshBusinessSession(){
+  let {data,error}=await businessAuthClient.auth.getSession();
+  if(error)throw error;
+  let session=data.session;
+  if(!session || (session.expires_at && session.expires_at*1000 < Date.now()+60000)){
+    const refreshed=await businessAuthClient.auth.refreshSession();
+    if(refreshed.error)throw refreshed.error;
+    session=refreshed.data.session;
+  }
+  if(!session?.access_token)throw new Error('Login session expire ho gaya. Dobara login karein.');
+  return session;
+}
 async function startSaasSubscription(plan){
   const subscriptionPaymentMode=new URLSearchParams(window.location.search).get('payment_mode')==='test'?'test':'live';
   const message=businessAuthEl('subscriptionPaymentMessage');
@@ -312,9 +331,8 @@ async function startSaasSubscription(plan){
   try{
     if(!currentBusinessId)throw new Error('Business account load nahi hua. Dobara login karein.');
     button.disabled=true;message.textContent='Razorpay AutoPay mandate create ho raha hai...';
-    const {data:sessionData}=await businessAuthClient.auth.getSession();
-    const token=sessionData.session?.access_token;
-    if(!token)throw new Error('Login session expire ho gaya. Dobara login karein.');
+    const activeSession=await getFreshBusinessSession();
+    const token=activeSession.access_token;
     const endpoint=BUSINESS_SUPABASE_URL+'/functions/v1/subscription-payments';
     const headers={'Content-Type':'application/json','apikey':BUSINESS_SUPABASE_KEY,'Authorization':'Bearer '+token,'x-payment-mode':subscriptionPaymentMode};
     const createResponse=await fetch(endpoint,{method:'POST',headers,body:JSON.stringify({action:'create_autopay_subscription',plan})});
@@ -327,12 +345,14 @@ async function startSaasSubscription(plan){
       subscription_id:subscription.subscription_id,
       name:subscription.business_name||'Spin & Win',
       description:subscription.description,
-      prefill:{email:sessionData.session.user.email||''},
+      prefill:{email:activeSession.user.email||''},
       theme:{color:'#FFD700'},
       handler:async function(response){
         try{
           message.textContent='AutoPay Mandate aur first payment verify ho raha hai...';
-          const verifyResponse=await fetch(endpoint,{method:'POST',headers,body:JSON.stringify({
+          const verifySession=await getFreshBusinessSession();
+          const verifyHeaders={...headers,Authorization:'Bearer '+verifySession.access_token};
+          const verifyResponse=await fetch(endpoint,{method:'POST',headers:verifyHeaders,body:JSON.stringify({
             action:'verify_autopay_subscription',
             razorpay_subscription_id:response.razorpay_subscription_id,
             razorpay_payment_id:response.razorpay_payment_id,
@@ -353,6 +373,37 @@ async function startSaasSubscription(plan){
 }
 businessAuthEl('subscribeMonthlyBtn').addEventListener('click',()=>startSaasSubscription('monthly'));
 businessAuthEl('subscribeYearlyBtn').addEventListener('click',()=>startSaasSubscription('yearly'));
+businessAuthEl('recoverPreviousPaymentBtn').addEventListener('click',async()=>{
+  const button=businessAuthEl('recoverPreviousPaymentBtn');
+  const message=businessAuthEl('recoveryPaymentMessage');
+  const paymentId=businessAuthEl('recoveryPaymentId').value.trim();
+  if(!paymentId || !/^pay_[A-Za-z0-9]+$/.test(paymentId)){
+    message.textContent='Razorpay Payment ID (pay_...) sahi tarah bharein.';
+    return;
+  }
+  button.disabled=true;
+  message.textContent='Razorpay se payment verify ho raha hai. Dobara payment nahi hoga...';
+  try{
+    const session=await getFreshBusinessSession();
+    const mode=new URLSearchParams(window.location.search).get('payment_mode')==='test'?'test':'live';
+    const response=await fetch(BUSINESS_SUPABASE_URL+'/functions/v1/subscription-payments',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json',
+        'apikey':BUSINESS_SUPABASE_KEY,
+        'Authorization':'Bearer '+session.access_token,
+        'x-payment-mode':mode
+      },
+      body:JSON.stringify({action:'recover_autopay_activation',razorpay_payment_id:paymentId})
+    });
+    const result=await response.json();
+    if(!response.ok)throw new Error(result.error||'Payment recovery verify nahi ho paya.');
+    message.textContent='Payment verified. Subscription activate ho gayi; Dashboard khul raha hai...';
+    await checkBusinessAccess(session.user);
+  }catch(error){
+    message.textContent=(error.message||'Recovery failed.')+' Agar amount debit hua hai to dobara payment na karein.';
+  }finally{button.disabled=false;}
+});
 businessAuthEl('subscriptionLogoutBtn').addEventListener('click',async()=>{
   await businessAuthClient.auth.signOut();
   businessAuthEl('subscriptionRequiredGate').classList.add('hidden');
